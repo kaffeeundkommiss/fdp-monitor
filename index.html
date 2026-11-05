@@ -465,8 +465,9 @@
     const el = (n, a, eltern) => { const e = document.createElementNS(NS, n);
       for(const k in a) e.setAttribute(k, a[k]); if(eltern) eltern.appendChild(e); return e; };
     const tip = document.createElement('div'); tip.className = 'fv-tip';
-    const dfmKurz = (t) => new Date(t).toLocaleDateString('de-DE',
-      {day: '2-digit', month: '2-digit', year: 'numeric'});
+    // Kein eigener Formatierer: die Zeitstempel der Zeitreihe sind UTC-Mitternacht,
+    // und dfmt() ist die eine Stelle, die ein reines Datum zeitzonenfest anzeigt.
+    const dfmKurz = (t) => dfmt(new Date(t).toISOString().slice(0, 10));
 
     function zeichne(){
       host.replaceChildren();

@@ -9,6 +9,10 @@ export default defineConfig({
   },
   use: {
     baseURL: "http://127.0.0.1:4173",
+    // Siehe vitest.config.js: in UTC bleiben Zeitzonenfehler bei Datumsangaben
+    // unsichtbar. Der Browser der Tests steht deshalb westlich von Greenwich.
+    timezoneId: "America/Los_Angeles",
+    locale: "de-DE",
     launchOptions: {
       executablePath: "/opt/pw-browsers/chromium",
     },

@@ -250,10 +250,13 @@ test.describe("Hinweis zur Datenlage", () => {
     await expect(page.locator("#kachel-berlin .hinweis")).toHaveText("Kein Wahltrend hinterlegt");
   });
 
-  test("data.json erklärt das Saarland, wo die FDP unter „Sonstige\" läuft", async ({ request }) => {
+  test("ein gesetzter Hinweis ist ein brauchbarer Satz", async ({ request }) => {
+    // Der Hinweis fürs Saarland ist entfallen, seit die Institute die FDP dort wieder
+    // ausweisen. Geprüft wird deshalb nur noch, dass ein vorhandener Hinweis taugt –
+    // nicht, dass eine bestimmte Ebene einen hat.
     const d = await (await request.get("/data.json")).json();
-    const sl = d.ebenen.find((e) => e.id === "saarland");
-    expect(sl.datenhinweis).toContain("Sonstige");
+    for (const e of d.ebenen)
+      if ("datenhinweis" in e) expect(e.datenhinweis.length).toBeGreaterThan(20);
   });
 });
 
