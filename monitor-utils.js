@@ -7,10 +7,25 @@
     return (Math.round(n * 10) / 10).toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   }
 
+  /* Datumsanzeige, unabhängig von der Zeitzone des Lesers.
+
+     "2026-09-06" ist ein Kalendertag, kein Zeitpunkt. new Date() legt es auf
+     UTC-Mitternacht, und toLocaleDateString rechnete das bisher in die lokale Zone
+     um – westlich von Greenwich kam dabei der Vortag heraus: ein Wahltermin vom
+     06.09. stand in New York als 05.09. auf der Seite. Deshalb wird ein reines
+     Datum ausdrücklich in UTC formatiert.
+
+     Ein vollständiger Zeitstempel ("erstellt", dawums Last_Update) ist dagegen ein
+     echter Zeitpunkt und wird in Berliner Zeit gezeigt – das ist die Zone, in der
+     die Daten entstehen, und sie bleibt für alle Leser dieselbe. */
   function dfmt(s) {
     if (!s) return "";
-    const d = new Date(s);
-    return isNaN(d) ? s : d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
+    const nurDatum = /^\d{4}-\d{2}-\d{2}$/.test(String(s));
+    const d = new Date(nurDatum ? s + "T00:00:00Z" : s);
+    return isNaN(d) ? s : d.toLocaleDateString("de-DE", {
+      day: "2-digit", month: "2-digit", year: "numeric",
+      timeZone: nurDatum ? "UTC" : "Europe/Berlin",
+    });
   }
 
   function esc(s) {

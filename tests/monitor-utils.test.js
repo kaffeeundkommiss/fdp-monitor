@@ -575,3 +575,31 @@ describe("mergeVerlauf", () => {
     expect(mergeVerlauf([{ institut: "X", datum: null, fdp: 1 }], live)).toHaveLength(1);
   });
 });
+
+describe("dfmt und Zeitzonen", () => {
+  // Die Suite läuft in America/Los_Angeles (siehe vitest.config.js). Vorher wurde ein
+  // reines Datum als UTC-Mitternacht gelesen und in der Zone des Lesers angezeigt –
+  // westlich von Greenwich kam der Vortag heraus. Auf der Live-Seite stand dadurch
+  // jeder Wahltermin einen Tag zu früh.
+  it("zeigt einen Kalendertag unverändert an, egal wo der Leser sitzt", () => {
+    expect(dfmt("2026-09-06")).toBe("06.09.2026");
+    expect(dfmt("2027-04-18")).toBe("18.04.2027");
+    expect(dfmt("2027-01-01")).toBe("01.01.2027");   // Jahreswechsel
+  });
+
+  it("verschiebt auch keinen Monats- oder Jahresanfang", () => {
+    expect(dfmt("2026-03-01")).toBe("01.03.2026");
+    expect(dfmt("2026-12-31")).toBe("31.12.2026");
+  });
+
+  it("zeigt einen echten Zeitstempel in Berliner Zeit, nicht in der des Lesers", () => {
+    // Die Daten entstehen in Berlin; der Stand soll für alle gleich lauten.
+    expect(dfmt("2026-11-02T09:20+02:00")).toBe("02.11.2026");
+    expect(dfmt("2026-11-02T00:30+01:00")).toBe("02.11.2026");
+  });
+
+  it("bleibt bei den bisherigen Zusagen", () => {
+    expect(dfmt(null)).toBe("");
+    expect(dfmt("not-a-date")).toBe("not-a-date");
+  });
+});
