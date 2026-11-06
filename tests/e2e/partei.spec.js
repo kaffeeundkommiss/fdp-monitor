@@ -51,3 +51,28 @@ test("Navigation verbindet beide Seiten", async ({ page }) => {
   await expect(page).toHaveURL(/partei\.html$/);
   await expect(page.locator('nav.seiten a[aria-current="page"]')).toHaveText("Partei");
 });
+
+test("Zeitleiste am Handy: Farblegende und Namen der unbeschrifteten Balken", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto("/partei.html");
+  await expect(page.locator("#legende-zeit")).toContainText("Nicht im Bundestag");
+  const schl = page.locator("#schluessel-zeit");
+  await expect(schl).toBeVisible();
+  await expect(schl).toContainText("Rösler");
+  await expect(schl).toContainText("Karlsruher Freiheitsthesen");
+  await expect(schl).toContainText("Neues Grundsatzprogramm");
+});
+
+test("Quellen der Parteiseite widersprechen sich nicht", async ({ page }) => {
+  // Früher nannte ein Sammelsatz für die Wahl Kubickis ZDFheute, die Karte tagesschau.
+  await page.goto("/partei.html");
+  await expect(page.locator("main")).not.toContainText("ZDF");
+  await expect(page.locator("footer")).not.toContainText("partei.json");
+});
+
+test("Zeitleiste am Desktop: Schlüssel nur für Spuren, deren Balken zu schmal sind", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/partei.html");
+  const schl = page.locator("#schluessel-zeit");
+  await expect(schl).not.toContainText("Karlsruher");  // passt beschriftet in den Balken
+});

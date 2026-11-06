@@ -90,6 +90,12 @@
   .legende span{display:inline-flex;align-items:center;gap:6px}
   .legende i{width:12px;height:12px;border-radius:3px;display:inline-block}
 
+  #chart-zeit{min-height:0}
+  /* Schlüssel unter der Zeitleiste: nennt, was in zu schmalen Balken nicht beschriftet ist */
+  .zeit-schluessel{margin:12px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px;line-height:1.4}
+  .zeit-schluessel dt{color:var(--mute)}
+  .zeit-schluessel dd{margin:0}
+
   .tip{position:absolute;pointer-events:none;display:none;z-index:2;max-width:280px;
     background:var(--paper);border:1px solid var(--line);border-radius:8px;
     padding:8px 10px;font-size:12px;line-height:1.45;box-shadow:0 4px 14px rgba(23,26,33,.16)}
@@ -109,7 +115,6 @@
   .tabelle td.zahl,.tabelle th.zahl{text-align:right;font-family:var(--mono)}
   .tabelle td.datum{font-family:var(--mono);color:var(--mute)}
   .tabelle tr.laufend td{font-weight:600}
-  .methode{font-size:13px;color:var(--mute);max-width:80ch;margin:0}
   .quelle{margin:14px 0 0;font-size:12px;color:var(--mute)}
   .quelle a{color:var(--mute)}
   .fehler{padding:20px;font-size:14px;color:#8A1C12;background:#FDECEA;border-radius:var(--r)}
@@ -125,6 +130,8 @@
     .kennzahlen{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
     .kennzahlen .karte{padding:14px}
     .kennzahlen .num{font-size:26px}
+    .zeit-schluessel{grid-template-columns:1fr;gap:0}
+    .zeit-schluessel dd{margin-bottom:8px}
   }
 </style>
 </head>
@@ -188,6 +195,8 @@
     <h2 id="zeit-titel">Vorsitz, Programme, Rolle im Bund</h2>
     <p class="sub">Senkrechte Linien: Bundestagswahlen. Das neue Grundsatzprogramm soll 2027 beschlossen werden.</p>
     <div class="chart" id="chart-zeit"></div>
+    <div class="legende" id="legende-zeit"></div>
+    <dl class="zeit-schluessel" id="schluessel-zeit" hidden></dl>
     <p class="quelle" data-beleg="zeitleiste"></p>
   </section>
 
@@ -214,12 +223,11 @@
     </div>
   </section>
 
-  <p class="methode" id="methode"></p>
 </main>
 
 <footer>
   <div class="wrap">
-    <span>Daten: <code>partei.json</code>, redaktionell gepflegt. Die Themengewichtung ist eine Einschätzung, keine systematische Inhaltsanalyse.</span>
+    <span>Redaktionell zusammengestellt, die Quellen stehen am jeweiligen Abschnitt. Die Themengewichtung ist eine Einschätzung, keine systematische Inhaltsanalyse.</span>
     <span><a href="index.html">Zu den Umfragewerten</a></span>
   </div>
 </footer>
@@ -236,7 +244,6 @@
 
   const d = await (await fetch('partei.json?t=' + Date.now(), {cache: 'no-store'})).json();
   document.getElementById('stand').textContent = 'Stand ' + (d.stand ? dfmt(d.stand) : 'unbekannt');
-  document.getElementById('methode').textContent = 'Quellen: ' + (d.quellen || '–');
   // Quelle je Abschnitt, damit sie auch auf einem Screenshot oder exportierten Bild steht.
   document.querySelectorAll('.quelle[data-beleg]').forEach((p) => {
     const k = p.dataset.beleg;
@@ -402,6 +409,7 @@
     const farbe = (b) => b.spur === 'Rolle im Bund' ? rolleFarbe(b.status)
       : b.spur === 'Vorsitz' ? (vorsitz.indexOf(b) % 2 ? '#4A505B' : 'var(--ink)') : '#EFC41A';
     const mfmt = (t) => new Date(t).toLocaleDateString('de-DE', {month: '2-digit', year: 'numeric', timeZone: 'UTC'});
+    const unbeschriftet = new Set();   // Spuren mit mindestens einem Balken ohne Platz für sein Label
     balken.forEach((b) => {
       const i = SPUREN.indexOf(b.spur); if(i < 0) return;
       const x0 = X(b.x0) + 1, w = Math.max(2, X(b.x1) - X(b.x0) - 2);
@@ -411,8 +419,19 @@
       const hell = b.spur === 'Vorsitz' || b.status === 'Regierung' || b.status === 'Nicht im Bundestag';
       const t = txt(svg, {x: x0 + 6, y: spurY(i) + lh / 2, dy: '0.32em', 'pointer-events': 'none'}, b.label);
       t.style.fill = hell ? '#FFFFFF' : 'var(--ink)';
-      if(t.getComputedTextLength() > w - 10) t.remove();
+      if(t.getComputedTextLength() > w - 10){ t.remove(); unbeschriftet.add(b.spur); }
     });
+
+    // Farblegende für die Rolle im Bund, wie beim Diagramm der Bundestagswahlen.
+    document.getElementById('legende-zeit').innerHTML = ROLLEN.map(([n, f]) =>
+      `<span><i style="background:${f}"></i>${esc(n)}</span>`).join('');
+    // Fehlen Beschriftungen (am Handy die Regel), stehen die Namen als Liste darunter.
+    // Die Rolle im Bund deckt die Farblegende ab.
+    const schl = document.getElementById('schluessel-zeit');
+    const spuren = SPUREN.filter((s) => s !== 'Rolle im Bund' && unbeschriftet.has(s));
+    schl.hidden = !spuren.length;
+    schl.innerHTML = spuren.map((s) => `<dt>${esc(s)}</dt><dd>${
+      balken.filter((b) => b.spur === s).map((b) => esc(b.label)).join(' · ')}</dd>`).join('');
   }
 
   // ---------- Themengewichtung ----------
