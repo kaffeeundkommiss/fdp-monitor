@@ -368,7 +368,7 @@
     if(!r.ok) throw new Error('HTTP ' + r.status);
     data = await r.json();
   } catch(e){
-    console.warn(DATA_URL + ' nicht ladbar', e);
+    console.warn('%s nicht ladbar', DATA_URL, e);
     if(SNAP){
       banner.hidden = false;
       document.getElementById('stand').textContent = 'Momentaufnahme fehlt';
