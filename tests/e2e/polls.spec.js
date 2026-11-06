@@ -93,7 +93,7 @@ test.describe("Kopf und App-Icon", () => {
 
 
   test("zeigt das Stand-Datum aus data.json im Kopf", async ({ page }) => {
-    await expect(page.locator("#stand")).toContainText("Stand");
+    await expect(page.locator("#stand")).toContainText("Aktualisiert");
     await expect(page.locator("header.top .marke img")).toHaveAttribute("src", "icons/icon.svg");
   });
 });
@@ -145,7 +145,7 @@ test.describe("Bund-Hero", () => {
   test("fällt ohne dawum auf die gespeicherten Umfragen zurück", async ({ page }) => {
     await seite(page);
     await expect(page.locator("#bund-hero .inst-zeile .nam").first()).toHaveText("Forsa (gespeichert)");
-    await expect(page.locator("#bund-hero .liste")).toContainText("letzten Aktualisierung");
+    await expect(page.locator("#bund-hero .liste")).toContainText("Gespeicherte Umfragen, abgerufen am");
   });
 
   test("blendet Umfragen ausserhalb des Altersfensters aus", async ({ page }) => {
@@ -239,7 +239,7 @@ test.describe("Hinweis zur Datenlage", () => {
 
   test("eine Ebene mit Werten bekommt keinen Hinweis", async ({ page }) => {
     await mitHinweis(page);
-    await expect(page.locator("#kachel-nrw .notiz")).toHaveCount(0);
+    await expect(page.locator("#kachel-nrw .notiz:not(.duenn)")).toHaveCount(0);
     await expect(page.locator("#kachel-nrw .pill")).not.toHaveText("nicht ausgewiesen");
   });
 

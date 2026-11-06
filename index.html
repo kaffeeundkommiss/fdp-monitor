@@ -62,6 +62,16 @@
   .marke .unter{font-size:13px;color:#B9BDC6}
   .badges{display:flex;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:13px}
   .badges span{padding:6px 10px;border:1px solid #3A3F4B;border-radius:6px;white-space:nowrap}
+  .badge-knopf{font:inherit;padding:6px 10px;border:1px solid #EFC41A;border-radius:6px;background:transparent;color:#EFC41A;cursor:pointer;white-space:nowrap}
+  .badge-knopf:hover{background:#EFC41A;color:#171A21}
+  .momentaufnahme{margin-bottom:20px;padding:12px 16px;border-radius:10px;background:var(--hinweis-bg);color:var(--hinweis-fg);font-size:14px}
+  .momentaufnahme a{color:inherit;font-weight:600}
+  .quelle{margin:12px 0 0;font-size:12px;color:var(--mute)}
+  .quelle a{color:var(--mute)}
+  .unschaerfe{margin:0;font-size:12px;line-height:1.45;color:var(--mute)}
+  td.wahl .beleg{display:block;font-size:12px;font-weight:400;color:var(--mute);margin-top:2px}
+  td.wahl .beleg a{color:var(--mute)}
+  footer .archiv a{margin-left:6px}
   nav.seiten{background:var(--ink);border-top:1px solid #2A2E38}
   nav.seiten .wrap{display:flex;gap:4px}
   nav.seiten a{color:#B9BDC6;text-decoration:none;font-weight:600;font-size:14px;padding:12px 14px;border-bottom:3px solid transparent}
@@ -211,6 +221,11 @@
     .fv-chart{min-height:220px}
     .kachel .basis{display:none}
     th,td{padding:12px 14px}
+    /* Am Handy passt die Tabelle nur ohne Balkenspalte: der Wert steht ja daneben. */
+    table{min-width:0}
+    th.abstand,td.abstand{display:none}
+    td.mono{white-space:nowrap}
+    td.erg{white-space:nowrap}
   }
 </style>
 </head>
@@ -227,6 +242,7 @@
     </div>
     <div class="badges">
       <span id="stand">Stand wird geladen …</span>
+      <button type="button" class="badge-knopf" id="stand-link" hidden title="Link auf diesen Datenstand kopieren – zeigt auch später dieselben Zahlen">Diesen Stand verlinken</button>
       <span>Quelle: dawum.de</span>
     </div>
   </div>
@@ -239,24 +255,28 @@
 </nav>
 
 <main>
-  <section id="bund-hero" aria-labelledby="bund-titel"></section>
+  <div class="momentaufnahme" id="momentaufnahme" hidden></div>
 
-  <section id="bund-verlauf" class="karte verlauf" aria-labelledby="verlauf-titel" hidden>
+  <section id="bund-hero" aria-labelledby="bund-titel" data-teilen="Bundestagswahl"></section>
+
+  <section id="bund-verlauf" class="karte verlauf" aria-labelledby="verlauf-titel" data-teilen="Zeitverlauf Bund" hidden>
     <h2 id="verlauf-titel">FDP im Zeitverlauf · Bund</h2>
     <p class="sub" id="verlauf-sub">Punkte: Einzelumfragen · Linie: 14-Tage-Mittel · gestrichelt: 5-%-Hürde</p>
     <div id="fdp-verlauf-chart" class="fv-chart"></div>
     <p class="fv-quelle">Quelle: <a href="https://dawum.de/Bundestag/" rel="noopener">dawum.de</a> · 14-Tage-Mittel ungewichtet</p>
   </section>
 
-  <section id="anstehend" aria-labelledby="anstehend-titel">
+  <section id="anstehend" aria-labelledby="anstehend-titel" data-teilen="Anstehende Wahlen">
     <div class="kopfzeile">
       <h2 id="anstehend-titel">Anstehende Wahlen</h2>
       <span class="hint">nächster Termin zuerst</span>
     </div>
     <div class="kacheln" id="anstehend-grid" style="margin-top:16px"></div>
+    <p class="quelle">Quelle: <a href="https://dawum.de" rel="noopener">dawum.de</a> (ODbL) · Ø der neuesten Umfrage je Institut, sofern kein Wahltrend vorliegt.
+      Werte aus nur einer oder zwei Umfragen sind wenig belastbar.</p>
   </section>
 
-  <section id="gelaufen" aria-labelledby="gelaufen-titel" hidden>
+  <section id="gelaufen" aria-labelledby="gelaufen-titel" data-teilen="Gelaufene Wahlen" data-quelle="amtliche Endergebnisse der Landeswahlleitungen" hidden>
     <div class="kopfzeile"><h2 id="gelaufen-titel">Gelaufene Wahlen</h2></div>
     <div class="karte tabelle" id="gelaufen-tabelle" style="margin-top:16px"></div>
   </section>
@@ -270,6 +290,7 @@
       0–8 %, die gestrichelte Linie markiert die 5-%-Hürde. Bundesebene zuerst, danach die anstehenden
       Wahlen (nächster Termin zuerst), am Ende die bereits gelaufenen.
     </span>
+    <span class="archiv" id="archiv" hidden></span>
     <span>
       Daten: <a href="https://dawum.de" rel="noopener">dawum.de</a> ·
       Lizenz <a href="https://opendatacommons.org/licenses/odbl/1.0/" rel="noopener">ODbL 1.0</a>
@@ -279,7 +300,8 @@
 
 <!-- ?v= bei jeder Änderung an monitor-utils.js hochzählen: sonst kann ein Browser
      die alte Fassung aus dem Cache zur neuen Seite laden (siehe Notbremse unten). -->
-<script src="monitor-utils.js?v=3"></script>
+<script src="monitor-utils.js?v=4"></script>
+<script src="teilen.js?v=1"></script>
 <script>
 (async function(){
   // Die Seite besteht aus einer HTML- und einer JS-Datei, die zusammengehören. Liefert ein
@@ -288,7 +310,7 @@
   // auch das nicht hilft, den Fehler zeigen statt nichts.
   const BENOETIGT = ['fmt','dfmt','esc','extractFdp','filterByAge','filterTrend','rowsNachWahl',
                      'gruppiereEbenen','tageBis','huerdeText','wahlAbgeschlossen',
-                     'verlaufPunkte','gleitendesMittel','mergeVerlauf'];
+                     'verlaufPunkte','gleitendesMittel','mergeVerlauf','isoWoche','unschaerfe'];
   const fehlende = () => BENOETIGT.filter((n) => typeof (window.MonitorUtils || {})[n] !== 'function');
 
   function zeigeFehler(text){
@@ -312,13 +334,16 @@
     return;
   }
 
-  const DATA_URL = 'data.json?t=' + Date.now();
+  // Momentaufnahme: ?stand=2026-KW45 zeigt den damals gespeicherten Stand aus archiv/,
+  // ohne Live-Daten – damit ein Link in einem Blogpost auch später dieselben Zahlen zeigt.
+  const SNAP = (/^\d{4}-KW\d{2}$/.exec(new URLSearchParams(location.search).get('stand') || '') || [null])[0];
+  const DATA_URL = SNAP ? 'archiv/' + SNAP + '.json' : 'data.json?t=' + Date.now();
   const DAWUM_URL = 'https://api.dawum.de/newest_surveys.json';
   const MAX_PCT = 8;                       // Skala aller Balken, einheitlich
   const HUERDE = 5;
   const {fmt, dfmt, esc, extractFdp, filterByAge, filterTrend, rowsNachWahl,
          gruppiereEbenen, tageBis, huerdeText, wahlAbgeschlossen,
-         verlaufPunkte, gleitendesMittel, mergeVerlauf} = MonitorUtils;
+         verlaufPunkte, gleitendesMittel, mergeVerlauf, isoWoche, unschaerfe} = MonitorUtils;
 
   const pz = (v) => fmt(v) + ' %';
   const breite = (v) => (v == null ? 0 : Math.min(Math.max(v, 0), MAX_PCT) / MAX_PCT * 100).toFixed(2) + '%';
@@ -334,13 +359,56 @@
 
   // ---------- Daten laden (unveränderte Logik) ----------
   let data = {ebenen: []};
-  try { data = await (await fetch(DATA_URL, {cache: 'no-store'})).json(); }
-  catch(e){ console.warn('data.json nicht ladbar', e); }
-  document.getElementById('stand').textContent =
-    'Stand ' + (data.erstellt ? dfmt(data.erstellt) : 'unbekannt');
+  const banner = document.getElementById('momentaufnahme');
+  const kwText = (kw) => kw.replace(/^(\d{4})-KW(\d{2})$/, 'KW $2/$1');
+  try {
+    const r = await fetch(DATA_URL, {cache: 'no-store'});
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    data = await r.json();
+  } catch(e){
+    console.warn(DATA_URL + ' nicht ladbar', e);
+    if(SNAP){
+      banner.hidden = false;
+      document.getElementById('stand').textContent = 'Momentaufnahme fehlt';
+      banner.innerHTML = 'Die Momentaufnahme ' + esc(kwText(SNAP)) + ' gibt es nicht. '
+        + '<a href="' + esc(location.pathname) + '">Zur aktuellen Ansicht</a>';
+      return;
+    }
+  }
+  // Bezugstag aller Altersfilter und Countdowns: in einer Momentaufnahme der Tag, an dem
+  // sie entstand, sonst heute.
+  const NOW = SNAP && data.erstellt ? new Date(data.erstellt) : undefined;
+  const KW = isoWoche(data.erstellt);
+  document.getElementById('stand').textContent = SNAP
+    ? 'Momentaufnahme ' + kwText(SNAP)
+    : 'Aktualisiert ' + (data.erstellt ? dfmt(data.erstellt) : 'unbekannt');
+  if(SNAP){
+    banner.hidden = false;
+    banner.innerHTML = 'Momentaufnahme ' + esc(kwText(SNAP)) + ', Datenstand ' + esc(dfmt(data.erstellt))
+      + '. Gezeigt werden die damals gespeicherten Werte, ohne Live-Daten. '
+      + '<a href="' + esc(location.pathname) + '">Zur aktuellen Ansicht</a>';
+  } else if(KW){
+    const knopf = document.getElementById('stand-link');
+    knopf.hidden = false;
+    knopf.addEventListener('click', async () => {
+      const url = location.origin + location.pathname + '?stand=' + KW;
+      try { await navigator.clipboard.writeText(url); knopf.textContent = 'Link kopiert'; }
+      catch(e){ window.prompt('Link auf diesen Datenstand:', url); }
+      setTimeout(() => { knopf.textContent = 'Diesen Stand verlinken'; }, 1800);
+    });
+  }
+  // Frühere Stände im Fuß verlinken (archiv/index.json schreibt update.py).
+  fetch('archiv/index.json', {cache: 'no-store'}).then((r) => r.ok ? r.json() : [])
+    .then((liste) => {
+      const el = document.getElementById('archiv');
+      const kws = (liste || []).filter((k) => /^\d{4}-KW\d{2}$/.test(k)).sort().reverse().slice(0, 8);
+      if(!el || !kws.length) return;
+      el.hidden = false;
+      el.innerHTML = 'Frühere Stände:' + kws.map((k) => '<a href="?stand=' + k + '">' + esc(kwText(k)) + '</a>').join('');
+    }).catch(() => {});
 
   let db = null;
-  if((data.ebenen || []).some((e) => !wahlAbgeschlossen(e))){
+  if(!SNAP && (data.ebenen || []).some((e) => !wahlAbgeschlossen(e))){
     try { db = await (await fetch(DAWUM_URL)).json(); }
     catch(e){ console.warn('dawum live nicht erreichbar, nutze data.json', e); }
   } // sind alle Wahlen gelaufen, gibt es nichts abzufragen
@@ -354,11 +422,11 @@
     if(db){
       const rows = filterByAge(
         extractFdp(db, (t) => new RegExp(ebene.parlament_regex, 'i').test(t)),
-        ebene.umfrage_max_alter_tage);
+        ebene.umfrage_max_alter_tage, NOW);
       return {rows, live: true, stand: db.Database && db.Database.Last_Update};
     }
     const fb = ebene.umfragen || {};
-    return {rows: filterByAge(fb.rows || [], ebene.umfrage_max_alter_tage), live: false, stand: fb.stand};
+    return {rows: filterByAge(fb.rows || [], ebene.umfrage_max_alter_tage, NOW), live: false, stand: fb.stand};
   }
 
   // Leitzahl-Rangfolge: amtliches Ergebnis -> aktueller Wahltrend -> Ø der Umfragen.
@@ -366,7 +434,7 @@
     const erg = ebene.wahlergebnis && ebene.wahlergebnis.fdp != null ? ebene.wahlergebnis : null;
     const mittel = erg ? rowsNachWahl(rows, erg.datum) : rows;
     const avg = mittel.length ? mittel.reduce((s, r) => s + r.fdp, 0) / mittel.length : null;
-    const trend = filterTrend(ebene.wahltrend, ebene.wahltrend_max_alter_tage);
+    const trend = filterTrend(ebene.wahltrend, ebene.wahltrend_max_alter_tage, NOW);
     if(erg)   return {art: 'ergebnis', wert: erg.fdp, erg, avg, anzahl: mittel.length};
     if(trend) return {art: 'trend', wert: trend.wert, trend, avg, anzahl: mittel.length};
     return {art: 'avg', wert: avg, avg, anzahl: mittel.length};
@@ -375,13 +443,13 @@
   // Hinweis, wenn der Wahltrend fehlt oder eingefroren ist.
   function hinweis(ebene){
     const t = ebene.wahltrend;
-    if(t && t.wert != null && !filterTrend(t, ebene.wahltrend_max_alter_tage))
+    if(t && t.wert != null && !filterTrend(t, ebene.wahltrend_max_alter_tage, NOW))
       return 'Wahltrend vom ' + dfmt(t.stand) + ' – Aktualisierung prüfen';
     if(!t || t.wert == null) return 'Kein Wahltrend hinterlegt';
     return '';
   }
 
-  const gruppen = gruppiereEbenen(data.ebenen || []);
+  const gruppen = gruppiereEbenen(data.ebenen || [], NOW);
 
   // ---------- Bund-Hero ----------
   const heroEl = document.getElementById('bund-hero');
@@ -397,6 +465,11 @@
     const punkte = rows.map((r) =>
       `<span class="punkt" style="left:${breite(r.fdp)}" title="${esc(r.institut)}: ${pz(r.fdp)}"></span>`).join('');
     const hw = hinweis(bund);
+    const moe = unschaerfe(lz.wert, 1000);
+    const standHero = lz.art === 'trend' && lz.trend.stand ? 'Wahltrend vom ' + dfmt(lz.trend.stand)
+      : stand ? 'Stand ' + dfmt(stand) : '';
+    heroEl.dataset.quelle = 'dawum.de (ODbL)';
+    heroEl.dataset.stand = standHero;
 
     heroEl.innerHTML = `<div class="karte hero">
       <div class="zahlen">
@@ -422,6 +495,11 @@
           <div><dt>Ø neueste Umfragen</dt><dd>${lz.avg == null ? '–' : pz(lz.avg)}</dd></div>
           <div><dt>Institute ≥ 5 %</dt><dd>${ueber5} von ${rows.length}</dd></div>
         </dl>
+        ${moe != null ? `<p class="unschaerfe">Einordnung: Eine einzelne Umfrage mit rund 1.000 Befragten
+          hat bei ${pz(lz.wert)} eine Unschärfe von etwa ±${fmt(moe)} Punkten (95-%-Intervall,
+          Richtwert). Abweichungen einzelner Institute um einen Punkt sind deshalb noch kein Trend.</p>` : ''}
+        <p class="quelle" style="margin:0">Quelle: <a href="https://dawum.de/${esc(bund.dawum_slug || '')}/" rel="noopener">dawum.de</a>
+          (ODbL)${standHero ? ' · ' + esc(standHero) : ''}</p>
       </div>
       <div class="liste">
         <details class="insts" id="insts">
@@ -438,7 +516,7 @@
             : '<p class="basis">Keine Einzelumfragen gefunden.</p>'}
           <p class="legende" style="margin:10px 0 0">${live
             ? 'Live von <a href="https://dawum.de/' + esc(bund.dawum_slug || '') + '/" rel="noopener">dawum.de</a>, Datenbank-Stand ' + dfmt(stand) + '.'
-            : (stand ? 'Daten aus der letzten Aktualisierung (' + dfmt(stand) + ').' : 'Live-Abruf nicht möglich und keine gespeicherten Daten.')}</p>
+            : (stand ? 'Gespeicherte Umfragen, abgerufen am ' + dfmt(stand) + '.' : 'Live-Abruf nicht möglich und keine gespeicherten Daten.')}</p>
         </details>
       </div>
     </div>`;
@@ -465,7 +543,7 @@
     const TAGE = (bund.verlauf_tage || 90), FENSTER = 14;
     const gespeichert = (bund.verlauf || {}).rows || [];
     const live = db ? extractFdp(db, (t) => new RegExp(bund.parlament_regex, 'i').test(t)) : [];
-    const punkte = verlaufPunkte(mergeVerlauf(gespeichert, live), TAGE);
+    const punkte = verlaufPunkte(mergeVerlauf(gespeichert, live), TAGE, NOW);
 
     if(punkte.length < 2){
       host.className = 'fv-leer';
@@ -495,7 +573,7 @@
       // schrumpft sie mit dünner Datenlage stillschweigend zusammen, der Zeitraum
       // stimmt nicht mehr mit der Beschriftung überein, und es bleibt womöglich nur
       // eine einzige Monatsgrenze zur Einordnung übrig.
-      const jetzt = new Date();
+      const jetzt = NOW || new Date();
       const x1 = Date.UTC(jetzt.getUTCFullYear(), jetzt.getUTCMonth(), jetzt.getUTCDate());
       const x0 = x1 - TAGE * 864e5;
       const X = (t) => ml + (t - x0) / (x1 - x0) * (W - ml - mr);
@@ -537,14 +615,17 @@
 
       el('line', {x1: ml, x2: W - mr, y1: Y(5), y2: Y(5), stroke: 'var(--fv-huerde)',
         'stroke-width': 1.5, 'stroke-dasharray': '5 4'}, svg);
-      el('text', {x: ml + 4, y: Y(5) - 5, 'font-size': 11, 'font-weight': 600,
-        class: 'fv-frei', fill: 'var(--fv-huerde)'}, svg).textContent = '5-%-Hürde';
 
       punkte.forEach((p) => el('circle', {cx: X(p.t), cy: Y(p.v), r: 3.5,
         fill: 'var(--fv-punkt)', 'fill-opacity': .35}, svg));
       el('path', {d: 'M' + linie.map((p) => `${X(p.t).toFixed(1)},${Y(p.v).toFixed(1)}`).join('L'),
         fill: 'none', stroke: 'var(--fv-linie)', 'stroke-width': 2,
         'stroke-linecap': 'round', 'stroke-linejoin': 'round'}, svg);
+
+      // Beschriftung der Hürde erst nach den Punkten zeichnen: so liegt ihr Hof über
+      // den Umfragepunkten bei 5 % und das Wort bleibt auch am Handy lesbar.
+      el('text', {x: ml + 4, y: Y(5) - 6, 'font-size': 11, 'font-weight': 600,
+        class: 'fv-frei', fill: 'var(--fv-huerde)'}, svg).textContent = '5-%-Hürde';
 
       const letzte = linie[linie.length - 1];
       el('text', {x: Math.min(X(letzte.t) + 6, W - 4), y: Y(letzte.v), dy: '0.32em',
@@ -583,12 +664,21 @@
       };
       const weg = () => { tip.style.display = 'none';
         lot.setAttribute('visibility', 'hidden'); kugel.setAttribute('visibility', 'hidden'); };
+      // Maus: folgen und beim Verlassen ausblenden. Touch: Antippen zeigt den Wert, und er
+      // bleibt stehen – auf Touch feuert pointerleave direkt nach dem Loslassen, der
+      // Kasten verschwand dadurch sofort wieder. Ausgeblendet wird bei Tipp daneben.
       flaeche.addEventListener('pointermove', zeigen);
       flaeche.addEventListener('pointerdown', zeigen);
-      flaeche.addEventListener('pointerleave', weg);
-      svg.addEventListener('pointerleave', weg);
+      const wegMaus = (ev) => { if(ev.pointerType === 'mouse') weg(); };
+      flaeche.addEventListener('pointerleave', wegMaus);
+      svg.addEventListener('pointerleave', wegMaus);
+      ausblenden = (ev) => { if(!svg.contains(ev.target)) weg(); };
     }
 
+    // Tipp neben das Diagramm blendet aus. Einmal registriert und auf das jeweils aktuelle
+    // Diagramm umgebogen: zeichne() läuft bei jeder Größenänderung neu.
+    let ausblenden = null;
+    document.addEventListener('pointerdown', (ev) => { if(ausblenden) ausblenden(ev); });
     zeichne();
     let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(zeichne, 150); });
   })();
@@ -601,7 +691,7 @@
     const lz = leitzahl(e, rows);
     const h = huerdeText(lz.wert);
     const {typ, land} = teileName(e.name);
-    const tage = tageBis(e.wahltermin);
+    const tage = tageBis(e.wahltermin, NOW);
     const leer = !rows.length && lz.wert == null;
     // Erklärt data.json, warum es hier keine Werte gibt (z. B. die FDP wird in diesem
     // Land nicht separat ausgewiesen), dann sagt die Kachel das – statt "keine Daten"
@@ -610,6 +700,11 @@
     // Der Wahltrend-Hinweis wäre daneben nur Rauschen: ohne ausgewiesene Werte kann
     // dawum gar keinen Trend bilden.
     const hw = datenhinweis ? '' : hinweis(e);
+    // Ein Wert aus ein, zwei Umfragen sieht in der Kachel so fest aus wie ein Wahltrend.
+    // Das muss an der Zahl stehen (auch am Handy, wo die Basiszeile ausgeblendet ist),
+    // sonst geht es beim Teilen eines Screenshots verloren.
+    const duenn = lz.art === 'avg' && rows.length > 0 && rows.length <= 2
+      ? 'Nur ' + (rows.length === 1 ? 'eine Umfrage' : 'zwei Umfragen') + ' – Einzelwert, wenig belastbar.' : '';
     const basis = lz.art === 'trend'
       ? 'Wahltrend' + (lz.avg != null ? ' · Ø neueste Umfragen ' + pz(lz.avg) : '')
       : rows.length
@@ -630,6 +725,7 @@
       ${leer ? '' : balken(lz.wert)}
       ${basis ? `<div class="basis">${basis}</div>` : ''}
       ${datenhinweis ? `<div class="notiz">${esc(datenhinweis)}</div>` : ''}
+      ${duenn ? `<div class="notiz duenn">${esc(duenn)}</div>` : ''}
       ${hw ? `<div class="hinweis">${esc(hw)}</div>` : ''}
     </article>`;
   }).join('');
@@ -638,28 +734,41 @@
   const gelaufen = gruppen.gelaufen;
   if(gelaufen.length){
     document.getElementById('gelaufen').hidden = false;
+    // Die Trend-Spalte nur zeigen, wenn es überhaupt einen Wert gibt – sonst ist sie eine
+    // Spalte voller Striche, die am Handy die Tabelle sprengt.
+    const mitTrend = gelaufen.some((e) => (e.wahltrend || {}).wert != null);
     document.getElementById('gelaufen-tabelle').innerHTML = `<table>
       <thead><tr>
         <th>Wahl</th><th>Datum</th>
         <th style="text-align:right">Ergebnis</th>
-        <th style="text-align:right">Letzter Trend</th>
+        ${mitTrend ? '<th style="text-align:right">Letzter Trend</th>' : ''}
         <th class="abstand">Abstand zur Hürde</th>
       </tr></thead>
       <tbody>${gelaufen.map((e) => {
         const lz = leitzahl(e, umfragen(e).rows);   // dieselbe Rangfolge wie oben
         const erg = e.wahlergebnis || {};
         const t = e.wahltrend || {};
+        const q = erg.quelle || {};
+        const beleg = q.url && /^https:\/\//.test(q.url)
+          ? `<span class="beleg">Quelle: <a href="${esc(q.url)}" rel="noopener">${esc(q.name || 'amtliches Ergebnis')}</a></span>` : '';
         return `<tr id="zeile-${esc(e.id)}">
-          <td class="wahl">${esc(teileName(e.name).land)}</td>
+          <td class="wahl">${esc(teileName(e.name).land)}${beleg}</td>
           <td class="mono">${dfmt(e.wahltermin)}</td>
           <td class="erg">${lz.wert != null ? pz(lz.wert) + (erg.vorlaeufig ? ' *' : '') : '–'}</td>
-          <td class="trend">${t.wert != null ? pz(t.wert) : '–'}</td>
+          ${mitTrend ? `<td class="trend">${t.wert != null ? pz(t.wert) : '–'}</td>` : ''}
           <td class="abstand" title="${lz.avg != null ? 'Ø der Umfragen nach der Wahl: ' + pz(lz.avg) : ''}">${balken(lz.wert)}</td>
         </tr>`;
       }).join('')}</tbody></table>
       ${gelaufen.some((e) => (e.wahlergebnis || {}).vorlaeufig)
         ? '<p class="basis" style="padding:0 20px 14px">* vorläufiges amtliches Ergebnis</p>' : ''}`;
   }
+
+  // Link- und Bild-Knöpfe erst jetzt: die Abschnitte sind gerendert, und ein #Anker
+  // aus einem geteilten Link kann angesprungen werden.
+  if(window.Teilen) Teilen.init({
+    quelle: 'dawum.de (ODbL)',
+    stand: SNAP ? 'Momentaufnahme ' + kwText(SNAP) : data.erstellt ? 'Stand ' + dfmt(data.erstellt) : '',
+  });
 })().catch((e) => {
   // Letzte Instanz: lieber eine erklärte Fehlermeldung als eine leere Seite.
   console.error('FDP-Monitor:', e);
