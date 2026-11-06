@@ -186,7 +186,8 @@ test.describe("Anstehende Wahlen", () => {
     await expect(be.locator(".wert .num")).toHaveText("–");
     await expect(be.locator(".pill")).toHaveText("keine Daten");
     await expect(be.locator(".bar")).toHaveCount(0);
-    await expect(be.locator(".hinweis")).toHaveText("Kein Wahltrend hinterlegt");
+    // Ein fehlender Wahltrend ist in den Ländern die Regel: kein gelber Kasten je Kachel.
+    await expect(be.locator(".hinweis")).toHaveCount(0);
   });
 
   test("der Status-Chip benennt die Lage zur Hürde", async ({ page }) => {
@@ -247,7 +248,7 @@ test.describe("Hinweis zur Datenlage", () => {
     await seite(page);   // Fixture ohne datenhinweis
     await expect(page.locator("#kachel-berlin .notiz")).toHaveCount(0);
     await expect(page.locator("#kachel-berlin .pill")).toHaveText("keine Daten");
-    await expect(page.locator("#kachel-berlin .hinweis")).toHaveText("Kein Wahltrend hinterlegt");
+    await expect(page.locator("#kachel-berlin .hinweis")).toHaveCount(0);
   });
 
   test("ein gesetzter Hinweis ist ein brauchbarer Satz", async ({ request }) => {
@@ -448,6 +449,8 @@ test.describe("Zeitverlauf Bund", () => {
     await mitVerlauf(page);
     const q = page.locator("#bund-verlauf .fv-quelle");
     await expect(q).toContainText("14-Tage-Mittel ungewichtet");
+    // 14-Tage-Mittel und gewichteter Wahltrend weichen ab: das muss am Diagramm stehen.
+    await expect(q).toContainText("vom Wahltrend oben abweichen");
     await expect(q.locator('a[href*="dawum.de"]')).toHaveCount(1);
   });
 

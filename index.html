@@ -68,7 +68,9 @@
   .momentaufnahme a{color:inherit;font-weight:600}
   .quelle{margin:12px 0 0;font-size:12px;color:var(--mute)}
   .quelle a{color:var(--mute)}
-  .unschaerfe{margin:0;font-size:12px;line-height:1.45;color:var(--mute)}
+  .abruf{margin:12px 0 0;font-size:12px;color:var(--mute)}
+  .abruf a{color:var(--mute)}
+  .unschaerfe,.abweichung{margin:0;font-size:12px;line-height:1.45;color:var(--mute)}
   td.wahl .beleg{display:block;font-size:12px;font-weight:400;color:var(--mute);margin-top:2px}
   td.wahl .beleg a{color:var(--mute)}
   footer .archiv a{margin-left:6px}
@@ -263,7 +265,7 @@
     <h2 id="verlauf-titel">FDP im Zeitverlauf · Bund</h2>
     <p class="sub" id="verlauf-sub">Punkte: Einzelumfragen · Linie: 14-Tage-Mittel · gestrichelt: 5-%-Hürde</p>
     <div id="fdp-verlauf-chart" class="fv-chart"></div>
-    <p class="fv-quelle">Quelle: <a href="https://dawum.de/Bundestag/" rel="noopener">dawum.de</a> · 14-Tage-Mittel ungewichtet</p>
+    <p class="fv-quelle">Quelle: <a href="https://dawum.de/Bundestag/" rel="noopener">dawum.de</a> · 14-Tage-Mittel ungewichtet, kann daher vom Wahltrend oben abweichen</p>
   </section>
 
   <section id="anstehend" aria-labelledby="anstehend-titel" data-teilen="Anstehende Wahlen">
@@ -440,12 +442,13 @@
     return {art: 'avg', wert: avg, avg, anzahl: mittel.length};
   }
 
-  // Hinweis, wenn der Wahltrend fehlt oder eingefroren ist.
+  // Hinweis nur, wenn ein Wahltrend da ist, aber veraltet. Fehlt er ganz (in den Ländern
+  // die Regel), sagt das die Basiszeile ("Ø aus n Umfragen") und der Satz unter den
+  // Kacheln. Ein gelber Kasten in jeder Kachel sah nach Warnung aus und war nur Rauschen.
   function hinweis(ebene){
     const t = ebene.wahltrend;
     if(t && t.wert != null && !filterTrend(t, ebene.wahltrend_max_alter_tage, NOW))
       return 'Wahltrend vom ' + dfmt(t.stand) + ' – Aktualisierung prüfen';
-    if(!t || t.wert == null) return 'Kein Wahltrend hinterlegt';
     return '';
   }
 
@@ -488,16 +491,17 @@
             ${balken(lz.wert, '<div class="marklbl">5 %</div>' + punkte)}
           </div>
           <div class="achse"><span>0 %</span><span>2 %</span><span>4 %</span><span>6 %</span><span>8 %</span></div>
-          <div class="legende">Balken: ${lz.art === 'trend' ? 'Wahltrend' : 'Leitzahl'} · Punkte: Einzelumfragen${
-            lz.art === 'trend' && lz.trend.stand ? ' · Trend-Stand ' + dfmt(lz.trend.stand) : ''}</div>
+          <div class="legende">Balken: ${lz.art === 'trend' ? 'Wahltrend' : 'Leitzahl'} · Punkte: Einzelumfragen</div>
         </div>
         <dl class="kennzahlen">
-          <div><dt>Ø neueste Umfragen</dt><dd>${lz.avg == null ? '–' : pz(lz.avg)}</dd></div>
+          <div><dt>Ø neueste Umfrage je Institut</dt><dd>${lz.avg == null ? '–' : pz(lz.avg)}</dd></div>
           <div><dt>Institute ≥ 5 %</dt><dd>${ueber5} von ${rows.length}</dd></div>
         </dl>
         ${moe != null ? `<p class="unschaerfe">Einordnung: Eine einzelne Umfrage mit rund 1.000 Befragten
           hat bei ${pz(lz.wert)} eine Unschärfe von etwa ±${fmt(moe)} Punkten (95-%-Intervall,
           Richtwert). Abweichungen einzelner Institute um einen Punkt sind deshalb noch kein Trend.</p>` : ''}
+        ${lz.art === 'trend' ? `<p class="abweichung">Der Wahltrend ist ein gewichtetes Mittel von dawum. Der
+          einfache Durchschnitt und das 14-Tage-Mittel im Zeitverlauf können deshalb um einige Zehntel abweichen.</p>` : ''}
         <p class="quelle" style="margin:0">Quelle: <a href="https://dawum.de/${esc(bund.dawum_slug || '')}/" rel="noopener">dawum.de</a>
           (ODbL)${standHero ? ' · ' + esc(standHero) : ''}</p>
       </div>
@@ -514,7 +518,7 @@
                <div class="val">${pz(r.fdp)}</div>
              </div>`).join('')
             : '<p class="basis">Keine Einzelumfragen gefunden.</p>'}
-          <p class="legende" style="margin:10px 0 0">${live
+          <p class="abruf">${live
             ? 'Live von <a href="https://dawum.de/' + esc(bund.dawum_slug || '') + '/" rel="noopener">dawum.de</a>, Datenbank-Stand ' + dfmt(stand) + '.'
             : (stand ? 'Gespeicherte Umfragen, abgerufen am ' + dfmt(stand) + '.' : 'Live-Abruf nicht möglich und keine gespeicherten Daten.')}</p>
         </details>
