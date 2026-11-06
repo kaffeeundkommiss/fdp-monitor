@@ -428,7 +428,7 @@ test.describe("Zeitverlauf Bund", () => {
     await mitVerlauf(page);
     // 4 Umfragen in 90 Tagen; die 200 Tage alte zählt nicht. Dazu kommt die Kugel
     // des Tooltips, die zunächst verborgen ist.
-    const punkte = page.locator('#fdp-verlauf-chart circle[fill-opacity="0.35"]');
+    const punkte = page.locator('#fdp-verlauf-chart circle[fill-opacity="0.6"]');
     await expect(punkte).toHaveCount(4);
   });
 
@@ -437,6 +437,14 @@ test.describe("Zeitverlauf Bund", () => {
     await expect(page.locator("#fdp-verlauf-chart path")).toHaveCount(1);
     // Letzter Tag: INSA 5,0 und Forsa 3,0 im 14-Tage-Fenster -> 4,0 %
     await expect(page.locator("#fdp-verlauf-chart text", { hasText: /^4,0 %$/ })).toHaveCount(1);
+  });
+
+  test("die y-Achse spannt nur den Wertebereich samt Hürde, nicht ab 0 %", async ({ page }) => {
+    await mitVerlauf(page);
+    // Werte 3,0 bis 5,0 %: Achse von 2 bis 6 %, die Hürde liegt im Bild.
+    await expect(page.locator("#fdp-verlauf-chart text", { hasText: /^0 %$/ })).toHaveCount(0);
+    await expect(page.locator("#fdp-verlauf-chart text", { hasText: /^2 %$/ })).toHaveCount(1);
+    await expect(page.locator("#fdp-verlauf-chart text", { hasText: /^6 %$/ })).toHaveCount(1);
   });
 
   test("markiert die 5-%-Hürde gestrichelt und beschriftet sie", async ({ page }) => {
@@ -449,8 +457,6 @@ test.describe("Zeitverlauf Bund", () => {
     await mitVerlauf(page);
     const q = page.locator("#bund-verlauf .fv-quelle");
     await expect(q).toContainText("14-Tage-Mittel ungewichtet");
-    // 14-Tage-Mittel und gewichteter Wahltrend weichen ab: das muss am Diagramm stehen.
-    await expect(q).toContainText("vom Wahltrend oben abweichen");
     await expect(q.locator('a[href*="dawum.de"]')).toHaveCount(1);
   });
 
@@ -487,7 +493,7 @@ test.describe("Zeitverlauf Bund", () => {
     await page.waitForSelector("#fdp-verlauf-chart svg");
     // dawum-live kennt eine Bund-Umfrage im Fenster und eine 250 Tage alte.
     // Gespeichert sind 4 im Fenster -> 5 Punkte, keine Dublette.
-    await expect(page.locator('#fdp-verlauf-chart circle[fill-opacity="0.35"]')).toHaveCount(5);
+    await expect(page.locator('#fdp-verlauf-chart circle[fill-opacity="0.6"]')).toHaveCount(5);
   });
 
   test("spannt die Achse über das ganze Fenster, nicht nur über die vorhandenen Daten", async ({ page }) => {

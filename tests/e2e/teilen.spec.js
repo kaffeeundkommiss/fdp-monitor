@@ -92,14 +92,18 @@ test.describe("Belege und Einordnung", () => {
 test.describe("Permalinks", () => {
   test("jeder Abschnitt hat Link- und Bild-Knopf", async ({ page }) => {
     await laden(page);
-    for (const id of ["bund-hero", "anstehend", "gelaufen"])
-      await expect(page.locator(`#${id} > .teilen-leiste .teilen-knopf`)).toHaveText(["Link", "Bild"]);
+    for (const id of ["bund-hero", "anstehend", "gelaufen"]) {
+      await expect(page.locator(`#${id} > .teilen-leiste .teilen-knopf`)).toHaveText(["Link kopieren", "Als Bild"]);
+      // Auch am Desktop groß genug zum Treffen (früher 30 px).
+      const box = await page.locator(`#${id} > .teilen-leiste .teilen-knopf`).first().boundingBox();
+      expect(box.height).toBeGreaterThanOrEqual(36);
+    }
   });
 
   test("Link kopiert die Adresse mit Anker", async ({ page, context }) => {
     await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     await laden(page);
-    await page.locator("#gelaufen .teilen-knopf", { hasText: "Link" }).click();
+    await page.locator("#gelaufen .teilen-knopf", { hasText: "Link kopieren" }).click();
     expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/\/index\.html#gelaufen$/);
   });
 
@@ -112,7 +116,7 @@ test.describe("Permalinks", () => {
     await laden(page);
     const [dl] = await Promise.all([
       page.waitForEvent("download"),
-      page.locator("#gelaufen .teilen-knopf", { hasText: "Bild" }).click(),
+      page.locator("#gelaufen .teilen-knopf", { hasText: "Als Bild" }).click(),
     ]);
     expect(dl.suggestedFilename()).toMatch(/^fdp-monitor-gelaufen-\d{4}-\d{2}-\d{2}\.png$/);
     // Die Fußzeile ist nur fürs Bild da und verschwindet danach wieder.
