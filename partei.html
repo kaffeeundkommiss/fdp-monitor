@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FDP-Monitor · Partei</title>
 <meta name="description" content="FDP auf Bundesebene 1998–2026: Wahlergebnisse, Vorsitz, Grundsatzprogramme und Themen der Wahlprogramme.">
+<link rel="canonical" href="https://kirchnerjan-cell.github.io/fdp-monitor/partei.html">
+<!-- Vorschaukarten für Social Media und Blogs. Bilder erzeugt og/make-og.py (Routine, wöchentlich). -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FDP-Monitor">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="FDP-Monitor · Partei">
+<meta property="og:description" content="FDP auf Bundesebene 1998–2026: Wahlergebnisse, Vorsitz, Grundsatzprogramme und Themen der Wahlprogramme.">
+<meta property="og:url" content="https://kirchnerjan-cell.github.io/fdp-monitor/partei.html">
+<meta property="og:image" content="https://kirchnerjan-cell.github.io/fdp-monitor/og/partei.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Balkendiagramm der FDP-Bundestagswahlergebnisse seit 1998 mit 5-%-Hürde">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FDP-Monitor · Partei">
+<meta name="twitter:description" content="FDP auf Bundesebene 1998–2026: Wahlergebnisse, Vorsitz, Grundsatzprogramme und Themen der Wahlprogramme.">
+<meta name="twitter:image" content="https://kirchnerjan-cell.github.io/fdp-monitor/og/partei.png">
 <link rel="icon" href="icons/favicon.ico" sizes="32x32">
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
@@ -94,6 +110,8 @@
   .tabelle td.datum{font-family:var(--mono);color:var(--mute)}
   .tabelle tr.laufend td{font-weight:600}
   .methode{font-size:13px;color:var(--mute);max-width:80ch;margin:0}
+  .quelle{margin:14px 0 0;font-size:12px;color:var(--mute)}
+  .quelle a{color:var(--mute)}
   .fehler{padding:20px;font-size:14px;color:#8A1C12;background:#FDECEA;border-radius:var(--r)}
 
   footer{margin-top:40px}
@@ -142,31 +160,35 @@
 
   <section class="kennzahlen" id="kennzahlen" aria-label="Kennzahlen"></section>
 
-  <section class="karte diagramm" aria-labelledby="wahlen-titel">
+  <section class="karte diagramm" id="bundestagswahlen" aria-labelledby="wahlen-titel" data-teilen="Bundestagswahlen" data-quelle="Bundeswahlleiterin">
     <h2 id="wahlen-titel">Bundestagswahlen</h2>
     <p class="sub">Zweitstimmen in Prozent. Farbe: Rolle in der folgenden Wahlperiode. Gestrichelt: 5-%-Hürde.</p>
     <div class="chart" id="chart-wahlen"></div>
     <div class="legende" id="legende-wahlen"></div>
+    <p class="quelle" data-beleg="wahlen"></p>
   </section>
 
-  <section class="karte diagramm" aria-labelledby="themen-titel">
+  <section class="karte diagramm" id="themen" aria-labelledby="themen-titel" data-teilen="Themengewichtung" data-quelle="redaktionelle Einschätzung der Wahlprogramme">
     <h2 id="themen-titel">Themengewichtung der Wahlprogramme</h2>
     <p class="sub">Redaktionelle Einordnung je Programm: 0 kaum vorhanden, 1 Nebenthema, 2 wichtig, 3 Kernthema. Für die Position eine Zelle antippen.</p>
     <div class="chart" id="chart-themen"></div>
     <div class="legende" id="legende-themen"></div>
+    <p class="quelle" data-beleg="themen"></p>
   </section>
 
-  <section class="karte diagramm" aria-labelledby="shift-titel">
+  <section class="karte diagramm" id="verschiebung" aria-labelledby="shift-titel" data-teilen="Verschiebung der Schwerpunkte" data-quelle="redaktionelle Einschätzung der Wahlprogramme">
     <h2 id="shift-titel">Verschiebung der Schwerpunkte</h2>
-    <p class="sub">Durchschnitt 2021–2025 minus Durchschnitt 1998–2005, auf der Skala 0–3. Balken nach rechts: heute wichtiger.</p>
+    <p class="sub">Durchschnitt 2021–2025 minus Durchschnitt 1998–2005, auf der Skala 0–3. Balken nach rechts: heute wichtiger. Grundlage ist die redaktionelle Themengewichtung oben, keine Inhaltsanalyse.</p>
     <div class="chart" id="chart-shift"></div>
     <div class="legende" id="legende-shift"></div>
+    <p class="quelle" data-beleg="themen"></p>
   </section>
 
-  <section class="karte diagramm" aria-labelledby="zeit-titel">
+  <section class="karte diagramm" id="zeitleiste" aria-labelledby="zeit-titel" data-teilen="Vorsitz, Programme, Rolle im Bund" data-quelle="bpb, Bundeswahlleiterin">
     <h2 id="zeit-titel">Vorsitz, Programme, Rolle im Bund</h2>
     <p class="sub">Senkrechte Linien: Bundestagswahlen. Das neue Grundsatzprogramm soll 2027 beschlossen werden.</p>
     <div class="chart" id="chart-zeit"></div>
+    <p class="quelle" data-beleg="zeitleiste"></p>
   </section>
 
   <section class="vorsitz" id="vorsitz" aria-labelledby="vorsitz-titel">
@@ -175,7 +197,7 @@
       <span class="hint">Amtsende = Wahltag des Nachfolgers</span>
     </div>
     <div class="kennzahlen" id="vorsitz-kennzahlen"></div>
-    <div class="karte diagramm">
+    <div class="karte diagramm" id="vorsitzende" data-teilen="Bundesvorsitzende" data-quelle="bpb, tagesschau">
       <h2 id="vorsitz-chart-titel">Amtszeiten im Zeitstrahl</h2>
       <p class="sub">Ein Balken je Vorsitzendem, Amtsdauer in Jahren am Balkenende. Blau: amtierender Vorsitzender, Amtszeit bis heute gerechnet.</p>
       <div class="chart" id="chart-vorsitz"></div>
@@ -188,6 +210,7 @@
           </table>
         </div>
       </details>
+      <p class="quelle" data-beleg="vorsitz"></p>
     </div>
   </section>
 
@@ -204,6 +227,7 @@
 <!-- ?v= bei jeder Änderung an monitor-utils.js / partei-utils.js hochzählen (Browser-Cache). -->
 <script src="monitor-utils.js?v=3"></script>
 <script src="partei-utils.js?v=2"></script>
+<script src="teilen.js?v=1"></script>
 <script>
 (async function(){
   const {fmt, dfmt, esc} = window.MonitorUtils || {};
@@ -213,6 +237,15 @@
   const d = await (await fetch('partei.json?t=' + Date.now(), {cache: 'no-store'})).json();
   document.getElementById('stand').textContent = 'Stand ' + (d.stand ? dfmt(d.stand) : 'unbekannt');
   document.getElementById('methode').textContent = 'Quellen: ' + (d.quellen || '–');
+  // Quelle je Abschnitt, damit sie auch auf einem Screenshot oder exportierten Bild steht.
+  document.querySelectorAll('.quelle[data-beleg]').forEach((p) => {
+    const k = p.dataset.beleg;
+    const links = ((d.belege || {})[k] || []).filter((b) => /^https:\/\//.test(b.url || ''))
+      .map((b) => `<a href="${esc(b.url)}" rel="noopener">${esc(b.name)}</a>`);
+    const hinweis = (d.belege_hinweis || {})[k];
+    const teile = [links.length ? 'Quelle: ' + links.join(' · ') : '', hinweis ? esc(hinweis) : ''].filter(Boolean);
+    if(teile.length) p.innerHTML = teile.join(' '); else p.remove();
+  });
 
   const HUERDE = 5;
   const ROLLEN = [['Regierung', 'var(--ueber)'], ['Opposition', 'var(--opp)'], ['Nicht im Bundestag', 'var(--huerde)']];
@@ -451,6 +484,7 @@
 
   const alles = () => { wahlen(); zeitleiste(); vorsitzChart(); themen(); shift(); };
   alles();
+  if(window.Teilen) Teilen.init({quelle: 'partei.json, redaktionell', stand: d.stand ? 'Stand ' + dfmt(d.stand) : ''});
   let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(alles, 150); });
 })().catch((e) => {
   console.error('FDP-Monitor (Partei):', e);

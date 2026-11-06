@@ -201,7 +201,31 @@
     return [...map.values()];
   }
 
-  const api = { fmt, dfmt, esc, extractFdp, sortEbenen, filterByAge, filterTrend, rowsNachWahl, gruppiereEbenen, tageBis, huerdeText, wahlAbgeschlossen, verlaufPunkte, gleitendesMittel, mergeVerlauf };
+  /* Kennung einer Wochen-Momentaufnahme ("2026-KW45") aus dem Zeitstempel "erstellt".
+     Maßgeblich ist das Kalenderdatum, wie es im Zeitstempel steht (Berliner Zeit), nicht
+     die Zone des Lesers – sonst verwiese ein Link aus New York auf die Vorwoche.
+     ISO-Woche wie Pythons date.isocalendar() in update.py, das die Datei anlegt. */
+  function isoWoche(erstellt) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(erstellt || ""));
+    if (!m) return null;
+    const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+    const wt = d.getUTCDay() || 7;            // Mo=1 … So=7
+    d.setUTCDate(d.getUTCDate() + 4 - wt);    // Donnerstag derselben Woche bestimmt das Jahr
+    const jahr = d.getUTCFullYear();
+    const woche = Math.ceil(((d - Date.UTC(jahr, 0, 1)) / 86400000 + 1) / 7);
+    return jahr + "-KW" + String(woche).padStart(2, "0");
+  }
+
+  /* Statistische Unschärfe einer einzelnen Umfrage (95-%-Intervall, einfache
+     Zufallsstichprobe) in Prozentpunkten. Richtwert: echte Umfragen sind gewichtet
+     und haben eher größere Fehler. */
+  function unschaerfe(prozent, befragte) {
+    if (prozent == null || !befragte) return null;
+    const p = prozent / 100;
+    return 1.96 * Math.sqrt(p * (1 - p) / befragte) * 100;
+  }
+
+  const api = { fmt, dfmt, esc, extractFdp, sortEbenen, filterByAge, filterTrend, rowsNachWahl, gruppiereEbenen, tageBis, huerdeText, wahlAbgeschlossen, verlaufPunkte, gleitendesMittel, mergeVerlauf, isoWoche, unschaerfe };
 
   if (typeof module !== "undefined" && module.exports) {
     module.exports = api;

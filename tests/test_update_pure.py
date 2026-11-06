@@ -123,6 +123,8 @@ class TestFdpRows:
             "schleswig-holstein": "SH Landtag von Schleswig-Holstein",
             "bremen": "HB Bremische Bürgerschaft",
             "niedersachsen": "NI Niedersächsischer Landtag",
+            "baden-wuerttemberg": "BW Landtag von Baden-Württemberg",
+            "rheinland-pfalz": "RP Landtag Rheinland-Pfalz",
         }
         for e in ebenen:
             assert e["id"] in namen, f"Testdaten kennen die Ebene '{e['id']}' nicht"

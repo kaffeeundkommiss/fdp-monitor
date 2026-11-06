@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { fmt, dfmt, esc, extractFdp, sortEbenen, filterByAge, filterTrend, rowsNachWahl,
          gruppiereEbenen, tageBis, huerdeText, wahlAbgeschlossen,
-         verlaufPunkte, gleitendesMittel, mergeVerlauf } from "../monitor-utils.js";
+         verlaufPunkte, gleitendesMittel, mergeVerlauf, isoWoche, unschaerfe } from "../monitor-utils.js";
 
 describe("fmt", () => {
   it("formats with one decimal, German locale (comma)", () => {
@@ -601,5 +601,35 @@ describe("dfmt und Zeitzonen", () => {
   it("bleibt bei den bisherigen Zusagen", () => {
     expect(dfmt(null)).toBe("");
     expect(dfmt("not-a-date")).toBe("not-a-date");
+  });
+});
+
+describe("isoWoche", () => {
+  it("names the ISO week of the calendar date in the timestamp", () => {
+    expect(isoWoche("2026-11-02T09:20+02:00")).toBe("2026-KW45");
+    expect(isoWoche("2026-11-08T23:59+01:00")).toBe("2026-KW45");
+    expect(isoWoche("2026-11-09T00:01+01:00")).toBe("2026-KW46");
+  });
+
+  it("matches Python's isocalendar() at the turn of the year", () => {
+    expect(isoWoche("2027-01-01T08:00+01:00")).toBe("2026-KW53");
+    expect(isoWoche("2025-12-29T08:00+01:00")).toBe("2026-KW01");
+  });
+
+  it("returns null without a usable timestamp", () => {
+    expect(isoWoche(null)).toBeNull();
+    expect(isoWoche("unbekannt")).toBeNull();
+  });
+});
+
+describe("unschaerfe", () => {
+  it("gives the 95 % margin of a single poll in points", () => {
+    expect(unschaerfe(4, 1000)).toBeCloseTo(1.21, 2);
+    expect(unschaerfe(50, 1000)).toBeCloseTo(3.10, 2);
+  });
+
+  it("returns null without value or sample size", () => {
+    expect(unschaerfe(null, 1000)).toBeNull();
+    expect(unschaerfe(4, 0)).toBeNull();
   });
 });

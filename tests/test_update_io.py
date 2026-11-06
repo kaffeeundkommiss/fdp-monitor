@@ -367,3 +367,29 @@ class TestUpdateVerlauf:
         update.update_verlauf(d)
         assert d["ebenen"][0]["verlauf"] == alt
         assert "nicht erreichbar" in capsys.readouterr().out
+
+
+class TestArchiv:
+    """Wochen-Momentaufnahmen: feste Links für Blogposts (index.html?stand=2026-KW45)."""
+
+    def test_kennung_ist_iso_woche_des_kalenderdatums(self):
+        assert update.archiv_kennung("2026-11-02T09:20+02:00") == "2026-KW45"
+        # Jahreswechsel: der 01.01.2027 ist ein Freitag und gehört zur KW 53 von 2026.
+        assert update.archiv_kennung("2027-01-01T08:00+01:00") == "2026-KW53"
+        assert update.archiv_kennung("2026-12-28T23:59+01:00") == "2026-KW53"
+
+    def test_schreibt_aufnahme_und_index_neben_data_json(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(update, "DATA", str(tmp_path / "data.json"))
+        update.archivieren({"erstellt": "2026-10-26T10:00+01:00", "ebenen": []})
+        update.archivieren({"erstellt": "2026-11-02T09:20+01:00", "ebenen": [{"id": "bund"}]})
+        archiv = tmp_path / "archiv"
+        assert json.loads((archiv / "index.json").read_text()) == ["2026-KW44", "2026-KW45"]
+        assert json.loads((archiv / "2026-KW45.json").read_text())["ebenen"] == [{"id": "bund"}]
+
+    def test_gleiche_woche_wird_ueberschrieben(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(update, "DATA", str(tmp_path / "data.json"))
+        update.archivieren({"erstellt": "2026-11-02T09:20+01:00", "ebenen": []})
+        update.archivieren({"erstellt": "2026-11-05T09:20+01:00", "ebenen": [{"id": "neu"}]})
+        archiv = tmp_path / "archiv"
+        assert json.loads((archiv / "index.json").read_text()) == ["2026-KW45"]
+        assert json.loads((archiv / "2026-KW45.json").read_text())["ebenen"] == [{"id": "neu"}]
