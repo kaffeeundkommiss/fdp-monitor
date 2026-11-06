@@ -780,8 +780,14 @@
   // Letzte Instanz: lieber eine erklärte Fehlermeldung als eine leere Seite.
   console.error('FDP-Monitor:', e);
   const el = document.getElementById('bund-hero');
-  if(el) el.innerHTML = '<div class="fehler"><strong>Die Seite konnte nicht geladen werden.</strong><br>'
-    + 'Technischer Hinweis: ' + (e && e.message ? e.message : e) + '</div>';
+  if(el){
+    el.innerHTML = '<div class="fehler"><strong>Die Seite konnte nicht geladen werden.</strong><br></div>';
+    const box = el.querySelector('.fehler');
+    if(box){
+      const detail = (e && e.message ? e.message : e);
+      box.appendChild(document.createTextNode('Technischer Hinweis: ' + detail));
+    }
+  }
 });
 </script>
 </body>
