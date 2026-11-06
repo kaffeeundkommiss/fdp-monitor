@@ -33,6 +33,11 @@ Ergebnis:
   6. Nur wenn sich inhaltlich etwas geändert hat (Wahltrend oder Umfragen), wird
      "erstellt" auf jetzt gesetzt und data.json geschrieben. Andernfalls bleibt die
      Datei unangetastet, damit kein Commit entsteht, der nur den Zeitstempel enthält.
+  7. Mit jedem Schreiben entsteht zusätzlich eine Wochen-Momentaufnahme
+     archiv/<JJJJ>-KW<ww>.json (Kopie von data.json, ISO-Woche von "erstellt") und
+     archiv/index.json listet alle vorhandenen. Die Seite zeigt sie unter
+     index.html?stand=2026-KW45 – ein fester Link für Blogposts, dessen Zahlen sich
+     nicht mehr ändern. Mehrere Läufe in derselben Woche überschreiben die Aufnahme.
 """
 import argparse
 import json, re, os, urllib.request
@@ -61,6 +66,29 @@ def save_data(d):
     with open(DATA, "w", encoding="utf-8") as f:
         json.dump(d, f, ensure_ascii=False, indent=2)
         f.write("\n")
+
+def archiv_kennung(erstellt):
+    """ "2026-11-02T09:20+02:00" -> "2026-KW45" (ISO-Woche des Kalenderdatums, wie
+    isoWoche() in monitor-utils.js)."""
+    jahr, woche, _ = datetime.strptime(erstellt[:10], "%Y-%m-%d").date().isocalendar()
+    return f"{jahr}-KW{woche:02d}"
+
+def archivieren(d):
+    """Momentaufnahme der gerade geschriebenen Daten ablegen und den Index erneuern."""
+    # Neben data.json, nicht fest im Repo: so schreiben Tests mit umgebogenem DATA
+    # nicht versehentlich ins echte Archiv.
+    ARCHIV = os.path.join(os.path.dirname(DATA), "archiv")
+    os.makedirs(ARCHIV, exist_ok=True)
+    kennung = archiv_kennung(d["erstellt"])
+    with open(os.path.join(ARCHIV, kennung + ".json"), "w", encoding="utf-8") as f:
+        json.dump(d, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+    alle = sorted(n[:-5] for n in os.listdir(ARCHIV) if re.fullmatch(r"\d{4}-KW\d{2}\.json", n))
+    with open(os.path.join(ARCHIV, "index.json"), "w", encoding="utf-8") as f:
+        json.dump(alle, f, ensure_ascii=False, indent=0)
+        f.write("\n")
+    print(f"Momentaufnahme archiv/{kennung}.json gespeichert.")
+    return kennung
 
 def fdp_rows(db, parl_regex):
     parties = db.get("Parties", {}); parls = db.get("Parliaments", {}); insts = db.get("Institutes", {})
@@ -254,6 +282,7 @@ def main():
     d["erstellt"] = datetime.now(TZ).isoformat(timespec="minutes")
     save_data(d)
     print("data.json geschrieben.")
+    archivieren(d)
 
 if __name__ == "__main__":
     main()
