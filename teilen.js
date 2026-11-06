@@ -2,10 +2,10 @@
 
    Jedes Element mit data-teilen="<Titel>" und einer id bekommt unten rechts zwei
    Knöpfe:
-   - „Link": kopiert die Adresse der Seite mit #id (auf dem Handy über das
+   - „Link kopieren": kopiert die Adresse der Seite mit #id (auf dem Handy über das
      Teilen-Menü des Systems). Eine Momentaufnahme (?stand=…) bleibt im Link, damit
      ein Blogpost auch später dieselben Zahlen zeigt.
-   - „Bild": rendert die Karte als PNG (doppelte Auflösung) und hängt eine Fußzeile
+   - „Als Bild": rendert die Karte als PNG (doppelte Auflösung) und hängt eine Fußzeile
      mit Quelle, Stand und Adresse an, damit ein Screenshot nicht ohne Beleg kursiert.
      Die Bibliothek dafür (vendor/html-to-image) wird erst beim ersten Klick geladen.
 
@@ -125,8 +125,8 @@
     leiste.className = "teilen-leiste";
     const name = el.dataset.teilen;
     leiste.append(
-      knopf("Link", "Link zu „" + name + "“ kopieren", function () { kopiereLink(el, this); }),
-      knopf("Bild", "„" + name + "“ als Bild speichern", function () { exportiereBild(el, this); })
+      knopf("Link kopieren", "Link zu „" + name + "“ kopieren", function () { kopiereLink(el, this); }),
+      knopf("Als Bild", "„" + name + "“ als Bild speichern", function () { exportiereBild(el, this); })
     );
     el.classList.add("teilbar");
     // Ans Ende, nicht rechts oben: dort stehen Überschriften und Legenden.
@@ -137,18 +137,17 @@
   const CSS = `
   .teilbar{position:relative}
   .teilen-leiste{display:flex;justify-content:flex-end;gap:6px;margin-top:12px}
-  .teilen-knopf{font:600 12px/1 var(--body,sans-serif);padding:7px 10px;min-height:30px;border:1px solid var(--line);
+  .teilen-knopf{font:600 13px/1 var(--body,sans-serif);padding:9px 12px;min-height:36px;border:1px solid var(--line);
     border-radius:6px;background:var(--paper,#fff);color:var(--mute);cursor:pointer}
   .teilen-knopf:hover{color:var(--ink);border-color:var(--mute)}
   .teilen-knopf.ok{color:var(--ok-fg,#1E4FD8);border-color:currentColor}
   .teilen-export{padding:16px}
   .karte.teilen-export,.diagramm.teilen-export{padding:24px 28px}
   .teilen-fuss{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 16px;margin-top:16px;padding-top:10px;
-    border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
+    border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
   .teilen-fuss span:first-child{flex:1 1 320px}
   .teilen-fuss span:last-child{font-family:var(--mono,monospace);color:var(--ink)}
-  .angesprungen{outline:2px solid #EFC41A;outline-offset:4px;border-radius:var(--r,12px);transition:outline-color 1s}
-  @media(max-width:599px){.teilen-knopf{min-height:36px;padding:9px 12px}}`;
+  .angesprungen{outline:2px solid #EFC41A;outline-offset:4px;border-radius:var(--r,12px);transition:outline-color 1s}`;
 
   function stil() {
     if (document.getElementById("teilen-stil")) return;

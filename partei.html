@@ -81,7 +81,7 @@
   .diagramm .sub{margin:6px 0 14px;font-size:13px;color:var(--mute);max-width:80ch}
   .chart{position:relative;min-height:240px}
   .chart svg{display:block;width:100%;height:auto;overflow:visible}
-  .chart text{font-family:var(--body);font-size:11px;fill:var(--mute)}
+  .chart text{font-family:var(--body);font-size:13px;fill:var(--mute)}
   .chart text.stark{fill:var(--ink);font-weight:500}
   .chart text.wert{font-family:var(--mono);font-weight:600;fill:var(--ink)}
   /* Werte über Linien freistellen, wie .fv-frei auf der Umfrageseite */
@@ -98,7 +98,7 @@
 
   .tip{position:absolute;pointer-events:none;display:none;z-index:2;max-width:280px;
     background:var(--paper);border:1px solid var(--line);border-radius:8px;
-    padding:8px 10px;font-size:12px;line-height:1.45;box-shadow:0 4px 14px rgba(23,26,33,.16)}
+    padding:8px 10px;font-size:13px;line-height:1.45;box-shadow:0 4px 14px rgba(23,26,33,.16)}
   .tip .k{font-family:var(--mono);color:var(--mute);margin-bottom:2px}
   .tip .m{font-weight:600}
 
@@ -110,12 +110,12 @@
   details.vtab>summary:focus-visible{outline:2px solid var(--ueber);outline-offset:2px}
   .tabelle{overflow-x:auto;margin-top:8px}
   .tabelle table{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}
-  .tabelle th{text-align:left;padding:8px 12px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+  .tabelle th{text-align:left;padding:8px 12px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
   .tabelle td{padding:8px 12px;border-top:1px solid var(--hair)}
   .tabelle td.zahl,.tabelle th.zahl{text-align:right;font-family:var(--mono)}
   .tabelle td.datum{font-family:var(--mono);color:var(--mute)}
   .tabelle tr.laufend td{font-weight:600}
-  .quelle{margin:14px 0 0;font-size:12px;color:var(--mute)}
+  .quelle{margin:14px 0 0;font-size:13px;color:var(--mute)}
   .quelle a{color:var(--mute)}
   .fehler{padding:20px;font-size:14px;color:#8A1C12;background:#FDECEA;border-radius:var(--r)}
 
@@ -177,7 +177,7 @@
 
   <section class="karte diagramm" id="themen" aria-labelledby="themen-titel" data-teilen="Themengewichtung" data-quelle="redaktionelle Einschätzung der Wahlprogramme">
     <h2 id="themen-titel">Themengewichtung der Wahlprogramme</h2>
-    <p class="sub">Redaktionelle Einordnung je Programm: 0 kaum vorhanden, 1 Nebenthema, 2 wichtig, 3 Kernthema. Für die Position eine Zelle antippen.</p>
+    <p class="sub">Redaktionelle Einordnung je Wahlprogramm. Zelle antippen für die Position.</p>
     <div class="chart" id="chart-themen"></div>
     <div class="legende" id="legende-themen"></div>
     <p class="quelle" data-beleg="themen"></p>
@@ -185,15 +185,14 @@
 
   <section class="karte diagramm" id="verschiebung" aria-labelledby="shift-titel" data-teilen="Verschiebung der Schwerpunkte" data-quelle="redaktionelle Einschätzung der Wahlprogramme">
     <h2 id="shift-titel">Verschiebung der Schwerpunkte</h2>
-    <p class="sub">Durchschnitt 2021–2025 minus Durchschnitt 1998–2005, auf der Skala 0–3. Balken nach rechts: heute wichtiger. Grundlage ist die redaktionelle Themengewichtung oben, keine Inhaltsanalyse.</p>
+    <p class="sub">Ø 2021–2025 minus Ø 1998–2005 aus der Themengewichtung oben (Skala 0–3).</p>
     <div class="chart" id="chart-shift"></div>
     <div class="legende" id="legende-shift"></div>
-    <p class="quelle" data-beleg="themen"></p>
   </section>
 
   <section class="karte diagramm" id="zeitleiste" aria-labelledby="zeit-titel" data-teilen="Vorsitz, Programme, Rolle im Bund" data-quelle="bpb, Bundeswahlleiterin">
     <h2 id="zeit-titel">Vorsitz, Programme, Rolle im Bund</h2>
-    <p class="sub">Senkrechte Linien: Bundestagswahlen. Das neue Grundsatzprogramm soll 2027 beschlossen werden.</p>
+    <p class="sub">Senkrechte Linien: Bundestagswahlen.</p>
     <div class="chart" id="chart-zeit"></div>
     <div class="legende" id="legende-zeit"></div>
     <dl class="zeit-schluessel" id="schluessel-zeit" hidden></dl>
@@ -208,7 +207,7 @@
     <div class="kennzahlen" id="vorsitz-kennzahlen"></div>
     <div class="karte diagramm" id="vorsitzende" data-teilen="Bundesvorsitzende" data-quelle="bpb, tagesschau">
       <h2 id="vorsitz-chart-titel">Amtszeiten im Zeitstrahl</h2>
-      <p class="sub">Ein Balken je Vorsitzendem, Amtsdauer in Jahren am Balkenende. Blau: amtierender Vorsitzender, Amtszeit bis heute gerechnet.</p>
+      <p class="sub">Amtsdauer in Jahren. Blau: amtierend, bis heute gerechnet.</p>
       <div class="chart" id="chart-vorsitz"></div>
       <details class="vtab">
         <summary>Alle Vorsitzenden als Tabelle</summary>
@@ -227,7 +226,7 @@
 
 <footer>
   <div class="wrap">
-    <span>Redaktionell zusammengestellt, die Quellen stehen am jeweiligen Abschnitt. Die Themengewichtung ist eine Einschätzung, keine systematische Inhaltsanalyse.</span>
+    <span>Quellen stehen am jeweiligen Abschnitt.</span>
     <span><a href="index.html">Zu den Umfragewerten</a></span>
   </div>
 </footer>
@@ -235,7 +234,7 @@
 <!-- ?v= bei jeder Änderung an monitor-utils.js / partei-utils.js hochzählen (Browser-Cache). -->
 <script src="monitor-utils.js?v=3"></script>
 <script src="partei-utils.js?v=2"></script>
-<script src="teilen.js?v=1"></script>
+<script src="teilen.js?v=2"></script>
 <script>
 (async function(){
   const {fmt, dfmt, esc} = window.MonitorUtils || {};

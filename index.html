@@ -66,12 +66,12 @@
   .badge-knopf:hover{background:#EFC41A;color:#171A21}
   .momentaufnahme{margin-bottom:20px;padding:12px 16px;border-radius:10px;background:var(--hinweis-bg);color:var(--hinweis-fg);font-size:14px}
   .momentaufnahme a{color:inherit;font-weight:600}
-  .quelle{margin:12px 0 0;font-size:12px;color:var(--mute)}
+  .quelle{margin:12px 0 0;font-size:13px;color:var(--mute)}
   .quelle a{color:var(--mute)}
-  .abruf{margin:12px 0 0;font-size:12px;color:var(--mute)}
+  .abruf{margin:12px 0 0;font-size:13px;color:var(--mute)}
   .abruf a{color:var(--mute)}
-  .unschaerfe,.abweichung{margin:0;font-size:12px;line-height:1.45;color:var(--mute)}
-  td.wahl .beleg{display:block;font-size:12px;font-weight:400;color:var(--mute);margin-top:2px}
+  .unschaerfe{margin:0;font-size:13px;line-height:1.45;color:var(--mute)}
+  td.wahl .beleg{display:block;font-size:13px;font-weight:400;color:var(--mute);margin-top:2px}
   td.wahl .beleg a{color:var(--mute)}
   footer .archiv a{margin-left:6px}
   nav.seiten{background:var(--ink);border-top:1px solid #2A2E38}
@@ -117,22 +117,22 @@
   /* marklbl und punkt liegen im .bar, ihre top-Werte zählen also ab dessen Oberkante:
      die Marke 20 px darüber, die Punkte 22 px darunter – so bleibt beides im .feld
      und läuft weder in den Balken noch in die Achsenbeschriftung. */
-  .skala .marklbl{position:absolute;left:var(--huerde-pos);top:-24px;transform:translateX(-50%);font-family:var(--mono);font-size:12px;font-weight:600;color:#A1261F}
+  .skala .marklbl{position:absolute;left:var(--huerde-pos);top:-24px;transform:translateX(-50%);font-family:var(--mono);font-size:13px;font-weight:600;color:#A1261F}
   .skala .punkt{position:absolute;top:22px;width:8px;height:8px;border-radius:50%;background:var(--ueber);transform:translateX(-50%);box-shadow:0 0 0 2px var(--paper)}
-  .skala .achse{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--mute)}
+  .skala .achse{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--mute)}
   .skala .legende{font-size:13px;color:var(--mute)}
 
   .kennzahlen{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
   .kennzahlen>div{background:var(--bg);border-radius:10px;padding:12px 14px}
-  .kennzahlen dt{font-size:12px;color:var(--mute)}
+  .kennzahlen dt{font-size:13px;color:var(--mute)}
   .kennzahlen dd{margin:2px 0 0;font-family:var(--mono);font-size:22px;font-weight:600}
 
   .liste .lkopf{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:8px;border-bottom:1px solid var(--line)}
   .liste .lkopf h3{margin:0;font-size:15px;font-weight:600}
-  .liste .lkopf .skl{font-size:12px;color:var(--mute)}
+  .liste .lkopf .skl{font-size:13px;color:var(--mute)}
   .inst-zeile{display:grid;grid-template-columns:150px 1fr 60px;align-items:center;gap:14px;padding:7px 0;border-bottom:1px solid var(--hair)}
   .inst-zeile .nam{font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .inst-zeile .dat{font-family:var(--mono);font-size:12px;color:var(--mute)}
+  .inst-zeile .dat{font-family:var(--mono);font-size:13px;color:var(--mute)}
   .inst-zeile .val{font-family:var(--mono);font-weight:600;text-align:right}
   details.insts>summary{display:none}
 
@@ -150,11 +150,11 @@
      Papierfarbe stellt sie frei, statt sie dort hineinzuzeichnen. */
   .fv-chart .fv-frei{paint-order:stroke fill;stroke:var(--paper);stroke-width:3.5px;stroke-linejoin:round}
   .fv-leer{min-height:0;font-size:14px;color:var(--mute);padding:8px 0}
-  .fv-quelle{margin:12px 0 0;font-size:12px;color:var(--mute)}
+  .fv-quelle{margin:12px 0 0;font-size:13px;color:var(--mute)}
   .fv-quelle a{color:var(--mute)}
   .fv-tip{position:absolute;pointer-events:none;display:none;z-index:2;
     background:var(--paper);border:1px solid var(--line);border-radius:8px;
-    padding:8px 10px;font-size:12px;line-height:1.45;white-space:nowrap;
+    padding:8px 10px;font-size:13px;line-height:1.45;white-space:nowrap;
     box-shadow:0 4px 14px rgba(23,26,33,.16)}
   .fv-tip .fv-d{font-family:var(--mono);color:var(--mute);margin-bottom:2px}
   .fv-tip .fv-m{font-weight:600}
@@ -165,23 +165,23 @@
   .kachel .kkopf{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
   .kachel h3{margin:0;font-size:17px;font-weight:600}
   .kachel .wann{font-size:13px;color:var(--mute)}
-  .kachel .tage{font-family:var(--mono);font-size:12px;font-weight:600;padding:4px 8px;border-radius:6px;background:var(--ink);color:#EFC41A;white-space:nowrap}
+  .kachel .tage{font-family:var(--mono);font-size:13px;font-weight:600;padding:4px 8px;border-radius:6px;background:var(--ink);color:#EFC41A;white-space:nowrap}
   .kachel .wert{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .kachel .wert .num{font-family:var(--mono);font-size:40px;font-weight:600;letter-spacing:-.03em;line-height:1}
-  .kachel .pill{font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px}
+  .kachel .pill{font-size:13px;font-weight:600;padding:3px 8px;border-radius:999px}
   .pill.unter{background:var(--bad-bg);color:var(--bad-fg)}
   .pill.ueber,.pill.auf{background:var(--ok-bg);color:var(--ok-fg)}
   .pill.keine{background:var(--keine-bg);color:var(--keine-fg)}
   .kachel .basis{font-size:13px;color:var(--mute)}
-  .notiz{font-size:12px;line-height:1.4;color:var(--keine-fg);background:var(--keine-bg);border-radius:6px;padding:6px 8px}
-  .hinweis{font-size:12px;color:var(--hinweis-fg);background:var(--hinweis-bg);border-radius:6px;padding:6px 8px}
+  .notiz{font-size:13px;line-height:1.4;color:var(--keine-fg);background:var(--keine-bg);border-radius:6px;padding:6px 8px}
+  .hinweis{font-size:13px;color:var(--hinweis-fg);background:var(--hinweis-bg);border-radius:6px;padding:6px 8px}
   .kachel.leer{gap:10px}
   .kachel.leer .wert .num{font-size:28px;color:var(--mute)}
 
   /* ---------- Gelaufene Wahlen ---------- */
   .tabelle{overflow-x:auto}
   table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
-  thead tr{text-align:left;color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  thead tr{text-align:left;color:var(--mute);font-size:13px;text-transform:uppercase;letter-spacing:.05em}
   th{padding:14px 20px;font-weight:600}
   td{padding:14px 20px}
   tbody tr{border-top:1px solid var(--hair)}
@@ -263,9 +263,9 @@
 
   <section id="bund-verlauf" class="karte verlauf" aria-labelledby="verlauf-titel" data-teilen="Zeitverlauf Bund" hidden>
     <h2 id="verlauf-titel">FDP im Zeitverlauf · Bund</h2>
-    <p class="sub" id="verlauf-sub">Punkte: Einzelumfragen · Linie: 14-Tage-Mittel · gestrichelt: 5-%-Hürde</p>
+    <p class="sub" id="verlauf-sub">Punkte: Einzelumfragen · Linie: 14-Tage-Mittel</p>
     <div id="fdp-verlauf-chart" class="fv-chart"></div>
-    <p class="fv-quelle">Quelle: <a href="https://dawum.de/Bundestag/" rel="noopener">dawum.de</a> · 14-Tage-Mittel ungewichtet, kann daher vom Wahltrend oben abweichen</p>
+    <p class="fv-quelle">Quelle: <a href="https://dawum.de/Bundestag/" rel="noopener">dawum.de</a> · 14-Tage-Mittel ungewichtet</p>
   </section>
 
   <section id="anstehend" aria-labelledby="anstehend-titel" data-teilen="Anstehende Wahlen">
@@ -274,8 +274,7 @@
       <span class="hint">nächster Termin zuerst</span>
     </div>
     <div class="kacheln" id="anstehend-grid" style="margin-top:16px"></div>
-    <p class="quelle">Quelle: <a href="https://dawum.de" rel="noopener">dawum.de</a> (ODbL) · Ø der neuesten Umfrage je Institut, sofern kein Wahltrend vorliegt.
-      Werte aus nur einer oder zwei Umfragen sind wenig belastbar.</p>
+    <p class="quelle">Quelle: <a href="https://dawum.de" rel="noopener">dawum.de</a> (ODbL) · ohne Wahltrend: Ø der neuesten Umfrage je Institut</p>
   </section>
 
   <section id="gelaufen" aria-labelledby="gelaufen-titel" data-teilen="Gelaufene Wahlen" data-quelle="amtliche Endergebnisse der Landeswahlleitungen" hidden>
@@ -287,10 +286,8 @@
 <footer>
   <div class="wrap">
     <span class="erklaer">
-      Leitzahl: bei gelaufenen Wahlen das amtliche Ergebnis, sonst der gewichtete dawum-Wahltrend –
-      fehlt er oder ist er veraltet, der Ø der neuesten Umfrage je Institut. Alle Balken auf der Skala
-      0–8 %, die gestrichelte Linie markiert die 5-%-Hürde. Bundesebene zuerst, danach die anstehenden
-      Wahlen (nächster Termin zuerst), am Ende die bereits gelaufenen.
+      Große Zahl: amtliches Ergebnis, sonst dawum-Wahltrend, sonst Ø der neuesten Umfrage je Institut.
+      Alle Balken 0–8 %, rote Linie: 5-%-Hürde.
     </span>
     <span class="archiv" id="archiv" hidden></span>
     <span>
@@ -303,7 +300,7 @@
 <!-- ?v= bei jeder Änderung an monitor-utils.js hochzählen: sonst kann ein Browser
      die alte Fassung aus dem Cache zur neuen Seite laden (siehe Notbremse unten). -->
 <script src="monitor-utils.js?v=4"></script>
-<script src="teilen.js?v=1"></script>
+<script src="teilen.js?v=2"></script>
 <script>
 (async function(){
   // Die Seite besteht aus einer HTML- und einer JS-Datei, die zusammengehören. Liefert ein
@@ -497,11 +494,9 @@
           <div><dt>Ø neueste Umfrage je Institut</dt><dd>${lz.avg == null ? '–' : pz(lz.avg)}</dd></div>
           <div><dt>Institute ≥ 5 %</dt><dd>${ueber5} von ${rows.length}</dd></div>
         </dl>
-        ${moe != null ? `<p class="unschaerfe">Einordnung: Eine einzelne Umfrage mit rund 1.000 Befragten
-          hat bei ${pz(lz.wert)} eine Unschärfe von etwa ±${fmt(moe)} Punkten (95-%-Intervall,
-          Richtwert). Abweichungen einzelner Institute um einen Punkt sind deshalb noch kein Trend.</p>` : ''}
-        ${lz.art === 'trend' ? `<p class="abweichung">Der Wahltrend ist ein gewichtetes Mittel von dawum. Der
-          einfache Durchschnitt und das 14-Tage-Mittel im Zeitverlauf können deshalb um einige Zehntel abweichen.</p>` : ''}
+        ${moe != null ? `<p class="unschaerfe">Eine Einzelumfrage (rund 1.000 Befragte) schwankt um
+          etwa ±${fmt(moe)} Punkten (Richtwert).${lz.art === 'trend'
+          ? ' Der Wahltrend ist gewichtet und weicht daher leicht vom einfachen Ø ab.' : ''}</p>` : ''}
         <p class="quelle" style="margin:0">Quelle: <a href="https://dawum.de/${esc(bund.dawum_slug || '')}/" rel="noopener">dawum.de</a>
           (ODbL)${standHero ? ' · ' + esc(standHero) : ''}</p>
       </div>
@@ -557,7 +552,7 @@
     const linie = gleitendesMittel(punkte, FENSTER);
     const sub = document.getElementById('verlauf-sub');
     if(sub) sub.textContent = `Letzte ${TAGE} Tage · Punkte: Einzelumfragen · `
-      + `Linie: ${FENSTER}-Tage-Mittel · gestrichelt: 5-%-Hürde`;
+      + `Linie: ${FENSTER}-Tage-Mittel`;
 
     const NS = 'http://www.w3.org/2000/svg';
     const el = (n, a, eltern) => { const e = document.createElementNS(NS, n);
@@ -572,7 +567,13 @@
       const schmal = host.clientWidth < 420;
       const W = Math.max(280, host.clientWidth), H = schmal ? 220 : 260;
       const ml = 32, mr = schmal ? 48 : 50, mt = 14, mb = 24;
-      const yMax = Math.max(7, Math.ceil(Math.max(...punkte.map((p) => p.v)) + 1));
+      // Die y-Achse umfasst nur den Bereich der Werte plus Rand, die 5-%-Hürde immer
+      // eingeschlossen. Ab 0 % blieb die halbe Fläche leer und die Bewegung um die
+      // Hürde, um die es geht, wurde flach gedrückt. Es ist ein Liniendiagramm, kein
+      // Balken: eine Achse, die nicht bei 0 beginnt, verzerrt hier keine Flächen.
+      const werte = punkte.map((p) => p.v);
+      const yMin = Math.max(0, Math.floor(Math.min(...werte, HUERDE)) - 1);
+      const yMax = Math.max(yMin + 4, Math.ceil(Math.max(...werte, HUERDE)) + 1);
       // Die Achse spannt das ganze Fenster, nicht nur die vorhandenen Daten: sonst
       // schrumpft sie mit dünner Datenlage stillschweigend zusammen, der Zeitraum
       // stimmt nicht mehr mit der Beschriftung überein, und es bleibt womöglich nur
@@ -581,17 +582,17 @@
       const x1 = Date.UTC(jetzt.getUTCFullYear(), jetzt.getUTCMonth(), jetzt.getUTCDate());
       const x0 = x1 - TAGE * 864e5;
       const X = (t) => ml + (t - x0) / (x1 - x0) * (W - ml - mr);
-      const Y = (v) => H - mb - v / yMax * (H - mt - mb);
+      const Y = (v) => H - mb - (v - yMin) / (yMax - yMin) * (H - mt - mb);
       const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
         'aria-label': `FDP-Umfragewerte Bund der letzten ${TAGE} Tage, aktuelles `
           + `${FENSTER}-Tage-Mittel ${fmt(linie[linie.length - 1].v)} Prozent`}, host);
       host.appendChild(tip);
 
-      const schritt = yMax > 10 ? 2 : 1;
-      for(let v = 0; v <= yMax; v += schritt){
+      const schritt = yMax - yMin > 8 ? 2 : 1;
+      for(let v = yMin; v <= yMax; v += schritt){
         el('line', {x1: ml, x2: W - mr, y1: Y(v), y2: Y(v), stroke: 'var(--fv-gitter)'}, svg);
         el('text', {x: ml - 6, y: Y(v), dy: '0.32em', 'text-anchor': 'end',
-          'font-size': 11, fill: 'var(--fv-mute)'}, svg).textContent = v + ' %';
+          'font-size': 12, fill: 'var(--fv-mute)'}, svg).textContent = v + ' %';
       }
       const monatsX = [];
       const m = new Date(x0); m.setUTCDate(1); m.setUTCMonth(m.getUTCMonth() + 1);
@@ -599,7 +600,7 @@
         monatsX.push(X(+m));
         el('line', {x1: X(+m), x2: X(+m), y1: mt, y2: H - mb,
           stroke: 'var(--fv-gitter)'}, svg);
-        el('text', {x: X(+m), y: H - 6, 'text-anchor': 'middle', 'font-size': 11,
+        el('text', {x: X(+m), y: H - 6, 'text-anchor': 'middle', 'font-size': 12,
           fill: 'var(--fv-mute)'}, svg).textContent =
           m.toLocaleDateString('de-DE', {month: 'long', timeZone: 'UTC'})
             .slice(0, schmal ? 3 : 20);
@@ -610,7 +611,7 @@
       // beiden auf schmalen Schirmen zu Unlesbarem.
       const platz = schmal ? 38 : 62;
       const rand = (t, anker, txt) => el('text', {x: X(t), y: H - 6, 'text-anchor': anker,
-        'font-size': 10, fill: 'var(--fv-mute)'}, svg).textContent = txt;
+        'font-size': 12, fill: 'var(--fv-mute)'}, svg).textContent = txt;
       if(!monatsX.length || monatsX[0] - X(x0) >= platz)
         rand(x0, 'start', new Date(x0).toLocaleDateString('de-DE',
           {day: '2-digit', month: '2-digit', timeZone: 'UTC'}));
@@ -620,15 +621,17 @@
       el('line', {x1: ml, x2: W - mr, y1: Y(5), y2: Y(5), stroke: 'var(--fv-huerde)',
         'stroke-width': 1.5, 'stroke-dasharray': '5 4'}, svg);
 
+      // Deutlicher als früher (35 %), mit hellem Rand: so bleiben Punkte auf der
+      // Hürdenlinie und übereinanderliegende Umfragen unterscheidbar.
       punkte.forEach((p) => el('circle', {cx: X(p.t), cy: Y(p.v), r: 3.5,
-        fill: 'var(--fv-punkt)', 'fill-opacity': .35}, svg));
+        fill: 'var(--fv-punkt)', 'fill-opacity': .6, stroke: 'var(--paper)', 'stroke-width': 1}, svg));
       el('path', {d: 'M' + linie.map((p) => `${X(p.t).toFixed(1)},${Y(p.v).toFixed(1)}`).join('L'),
         fill: 'none', stroke: 'var(--fv-linie)', 'stroke-width': 2,
         'stroke-linecap': 'round', 'stroke-linejoin': 'round'}, svg);
 
       // Beschriftung der Hürde erst nach den Punkten zeichnen: so liegt ihr Hof über
       // den Umfragepunkten bei 5 % und das Wort bleibt auch am Handy lesbar.
-      el('text', {x: ml + 4, y: Y(5) - 6, 'font-size': 11, 'font-weight': 600,
+      el('text', {x: ml + 4, y: Y(5) - 6, 'font-size': 12, 'font-weight': 600,
         class: 'fv-frei', fill: 'var(--fv-huerde)'}, svg).textContent = '5-%-Hürde';
 
       const letzte = linie[linie.length - 1];
@@ -708,7 +711,7 @@
     // Das muss an der Zahl stehen (auch am Handy, wo die Basiszeile ausgeblendet ist),
     // sonst geht es beim Teilen eines Screenshots verloren.
     const duenn = lz.art === 'avg' && rows.length > 0 && rows.length <= 2
-      ? 'Nur ' + (rows.length === 1 ? 'eine Umfrage' : 'zwei Umfragen') + ' – Einzelwert, wenig belastbar.' : '';
+      ? 'Nur ' + (rows.length === 1 ? 'eine Umfrage' : 'zwei Umfragen') + ' – wenig belastbar' : '';
     const basis = lz.art === 'trend'
       ? 'Wahltrend' + (lz.avg != null ? ' · Ø neueste Umfragen ' + pz(lz.avg) : '')
       : rows.length
