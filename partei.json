@@ -378,5 +378,37 @@
         ]
       }
     ]
+  },
+  "belege": {
+    "wahlen": [
+      {
+        "name": "Bundeswahlleiterin: Ergebnisse früherer Bundestagswahlen",
+        "url": "https://www.bundeswahlleiterin.de/dam/jcr/397735e3-0585-46f6-a0b5-2c60c5b83de6/btw_ab49_gesamt.pdf"
+      },
+      {
+        "name": "Deutscher Bundestag: Wahlergebnisse seit 1949",
+        "url": "https://www.bundestag.de/parlament/wahlen/ergebnisse_seit1949-244692"
+      }
+    ],
+    "zeitleiste": [
+      {
+        "name": "bpb: Etappen der Parteigeschichte der FDP",
+        "url": "https://www.bpb.de/themen/parteien/parteien-in-deutschland/kleinparteien/fdp/273478/etappen-der-parteigeschichte-der-fdp/"
+      }
+    ],
+    "vorsitz": [
+      {
+        "name": "bpb: Etappen der Parteigeschichte der FDP",
+        "url": "https://www.bpb.de/themen/parteien/parteien-in-deutschland/kleinparteien/fdp/273478/etappen-der-parteigeschichte-der-fdp/"
+      },
+      {
+        "name": "tagesschau: Wahl Kubickis (30.05.2026)",
+        "url": "https://www.tagesschau.de/inland/innenpolitik/fdp-parteitag-262.html"
+      }
+    ]
+  },
+  "belege_hinweis": {
+    "themen": "Redaktionelle Einschätzung der Wahlprogramme (Titel siehe Bundestagswahlen), keine systematische Inhaltsanalyse.",
+    "vorsitz": "Amtsdaten vor 2025 zusätzlich nach Wikipedia, noch nicht vollständig gegen Primärquellen geprüft."
   }
 }

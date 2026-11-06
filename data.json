@@ -412,7 +412,11 @@
       "wahltrend_max_alter_tage": 21,
       "wahlergebnis": {
         "fdp": 2.6,
-        "datum": "2026-09-06"
+        "datum": "2026-09-06",
+        "quelle": {
+          "name": "Statistisches Landesamt Sachsen-Anhalt",
+          "url": "https://wahlergebnisse.sachsen-anhalt.de/wahlen/lt26/erg_land.html"
+        }
       },
       "wahltrend": {
         "wert": null,
@@ -436,7 +440,11 @@
       "wahltrend_max_alter_tage": 21,
       "wahlergebnis": {
         "fdp": 1.0,
-        "datum": "2026-09-20"
+        "datum": "2026-09-20",
+        "quelle": {
+          "name": "Landtag Mecklenburg-Vorpommern",
+          "url": "https://www.landtag-mv.de/landtag/rund-um-wahlen/landtagswahl-2026"
+        }
       },
       "wahltrend": {
         "wert": null,
@@ -460,7 +468,11 @@
       "wahltrend_max_alter_tage": 21,
       "wahlergebnis": {
         "fdp": 2.5,
-        "datum": "2026-09-20"
+        "datum": "2026-09-20",
+        "quelle": {
+          "name": "Landeswahlleiter Berlin",
+          "url": "https://wahlen-berlin.de/wahlen/BE2026/Afspraes/agh/index.html"
+        }
       },
       "wahltrend": {
         "wert": null,
@@ -469,6 +481,62 @@
       },
       "umfragen": {
         "stand": "2026-09-20",
+        "rows": []
+      }
+    },
+    {
+      "id": "baden-wuerttemberg",
+      "name": "Landtagswahl Baden-Württemberg",
+      "kurz": "BW",
+      "css": "land",
+      "parlament_regex": "baden.w",
+      "dawum_slug": "Baden-Württemberg",
+      "wahltermin": "2026-03-08",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": {
+        "fdp": 4.4,
+        "datum": "2026-03-08",
+        "quelle": {
+          "name": "Statistisches Landesamt Baden-Württemberg",
+          "url": "https://wahlen.statistik-bw.de/ltw26/"
+        }
+      },
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-03-08",
+        "rows": []
+      }
+    },
+    {
+      "id": "rheinland-pfalz",
+      "name": "Landtagswahl Rheinland-Pfalz",
+      "kurz": "RP",
+      "css": "land",
+      "parlament_regex": "rheinland.pfalz",
+      "dawum_slug": "Rheinland-Pfalz",
+      "wahltermin": "2026-03-22",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": {
+        "fdp": 2.1,
+        "datum": "2026-03-22",
+        "quelle": {
+          "name": "Landeswahlleiter Rheinland-Pfalz",
+          "url": "https://www.wahlen.rlp.de/nachrichten/nachrichtendetailseite/endgueltiges-ergebnis-der-landtagswahl-2026-steht-fest"
+        }
+      },
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-03-22",
         "rows": []
       }
     },
