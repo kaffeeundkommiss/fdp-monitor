@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-26",
+  "stand": "2026-11-06",
   "quellen": "Bundeswahlleiterin (Ergebnisse), bpb und fdp.de (Programme, Vorsitz). Vorsitzende seit 1948: Wikipedia, Wahl Kubicki: ZDFheute. Redaktionell zusammengestellt.",
   "wahlen": [
     {
@@ -210,7 +210,7 @@
       "spur": "Rolle im Bund",
       "label": "Nicht im Bundestag",
       "von": "2025-03",
-      "bis": "2026-10",
+      "bis": null,
       "status": "Nicht im Bundestag"
     }
   ],
