@@ -25,17 +25,25 @@ Diesen Text als Zusatzschritt an die bestehende wöchentliche Umfrage-Routine in
 
    b) **Ebene mit vorläufigem Ergebnis**: `wahlergebnis.vorlaeufig` ist `true`. Prüfe erneut, ob inzwischen das endgültige Ergebnis feststeht. Falls ja, korrigiere `fdp` auf den endgültigen Wert und **entferne das Feld `vorlaeufig`** – damit ist die Ebene abgeschlossen und wird nicht mehr geprüft. Falls nein, alles unverändert lassen.
 
+   Trage zusätzlich die Fundstelle ein, damit die Seite das Ergebnis belegt: `"quelle": {"name": "<Landeswahlleitung oder Statistisches Landesamt>", "url": "https://…"}` im `wahlergebnis`. Nur eine Seite angeben, die du selbst aufgerufen hast und die den Wert zeigt.
+
    Achte auf die richtige Stimme: maßgeblich ist der **Zweitstimmen**-Anteil (Landesstimme), nicht der Erststimmen-Anteil. Bei unklarer Quellenlage `wahlergebnis` unverändert lassen und das in der Abschlussmeldung erwähnen.
 
 4. Prüfe, dass `data.json` gültiges JSON ist (`python3 -c "import json;json.load(open('data.json'))"`).
 
+   Hat `update.py` „data.json geschrieben" gemeldet, hat es auch eine Wochen-Momentaufnahme `archiv/<JJJJ>-KW<ww>.json` angelegt (fester Link für Blogposts, `index.html?stand=2026-KW45`). Erzeuge dann außerdem die Vorschaubilder für Social Media neu:
+   ```
+   python3 og/make-og.py
+   ```
+   Das Skript braucht Pillow. Fehlt es, zuerst `pip install pillow`. Schlägt die Installation fehl, den Schritt überspringen und das in der Abschlussmeldung erwähnen – die Seite funktioniert auch mit dem Bild der Vorwoche.
+
    **Parteidaten (`partei.json`) prüfen.** Die Seiten „Partei" und „Programme" zeigen `partei.json["stand"]` als Datenstand. Prüfe per Web-Suche (zwei unabhängige Quellen, z. B. tagesschau und dpa), ob sich seit `stand` etwas geändert hat: Bundesvorsitz (`vorsitzende`, letzter Eintrag mit `"ende": null`), Rolle im Bund (letzter Eintrag der Spur „Rolle im Bund" in `zeitleiste`, laufend mit `"bis": null`), neue Bundestagswahl in `wahlen`. Trage Änderungen nur mit Beleg ein. Setze danach `stand` auf das heutige Datum (`JJJJ-MM-TT`) – `stand` heißt hier „zuletzt geprüft". Bei unklarer Lage nichts ändern und das in der Abschlussmeldung erwähnen. Prüfe danach: `python3 -c "import json;json.load(open('partei.json'))"`.
 
-5. Prüfe zuerst, ob es überhaupt etwas zu committen gibt: `git status --porcelain data.json`.
-   - Gibt das eine Zeile aus: `git add data.json && git commit -m "Monitor-Update KW <Kalenderwoche>" && git push`.
+5. Prüfe zuerst, ob es überhaupt etwas zu committen gibt: `git status --porcelain data.json partei.json archiv og`.
+   - Gibt das eine Zeile aus: `git add data.json partei.json archiv og && git commit -m "Monitor-Update KW <Kalenderwoche>" && git push`.
    - Ist die Ausgabe leer, hat sich nichts geändert. Dann **kein** Commit und **kein** Push – das ist der Normalfall bei einem Lauf ohne neue Umfragen und kein Fehler.
 
-6. Melde am Ende: Wahltrend-Werte mit Δ je Ebene, ob dawum live erreichbar war, ob sich an den Parteidaten etwas geändert hat, ob ein neues Wahlergebnis eingetragen oder ein vorläufiges durch das endgültige ersetzt wurde, und ob committet wurde oder es nichts zu ändern gab.
+6. Melde am Ende: Wahltrend-Werte mit Δ je Ebene, ob dawum live erreichbar war, ob die Vorschaubilder neu erzeugt wurden, ob sich an den Parteidaten etwas geändert hat, ob ein neues Wahlergebnis eingetragen oder ein vorläufiges durch das endgültige ersetzt wurde, und ob committet wurde oder es nichts zu ändern gab.
 
 ---
 

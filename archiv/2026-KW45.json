@@ -1,0 +1,683 @@
+{
+  "erstellt": "2026-11-02T09:20+02:00",
+  "ebenen": [
+    {
+      "id": "bund",
+      "name": "Bundestagswahl",
+      "kurz": "Bund",
+      "css": "bund",
+      "parlament_regex": "bundestag",
+      "dawum_slug": "Bundestag",
+      "verlauf_tage": 90,
+      "wahltermin": null,
+      "umfrage_max_alter_tage": 60,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": null,
+      "wahltrend": {
+        "wert": 4.0,
+        "delta": 0.1,
+        "stand": "2026-10-31"
+      },
+      "umfragen": {
+        "stand": "2026-11-01T15:34:27+01:00",
+        "rows": [
+          {
+            "institut": "INSA",
+            "datum": "2026-10-31",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-10-27",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Verian (Emnid)",
+            "datum": "2026-10-23",
+            "fdp": 3.0
+          },
+          {
+            "institut": "Forschungsgruppe Wahlen",
+            "datum": "2026-10-23",
+            "fdp": 3.0
+          },
+          {
+            "institut": "Allensbach",
+            "datum": "2026-10-22",
+            "fdp": 4.0
+          },
+          {
+            "institut": "pollytix",
+            "datum": "2026-10-20",
+            "fdp": 5.0
+          },
+          {
+            "institut": "YouGov",
+            "datum": "2026-10-20",
+            "fdp": 5.0
+          },
+          {
+            "institut": "GMS",
+            "datum": "2026-10-19",
+            "fdp": 3.0
+          },
+          {
+            "institut": "Ipsos",
+            "datum": "2026-10-08",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Infratest dimap",
+            "datum": "2026-10-01",
+            "fdp": 4.0
+          }
+        ]
+      },
+      "verlauf": {
+        "stand": "2026-11-01T15:34:27+01:00",
+        "tage": 90,
+        "rows": [
+          {
+            "institut": "Forsa",
+            "datum": "2026-08-04",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-08-04",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Infratest dimap",
+            "datum": "2026-08-06",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Ipsos",
+            "datum": "2026-08-06",
+            "fdp": 5.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-08-08",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-08-11",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-08-11",
+            "fdp": 4.5
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-08-15",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-08-18",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-08-18",
+            "fdp": 5.0
+          },
+          {
+            "institut": "YouGov",
+            "datum": "2026-08-18",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Forschungsgruppe Wahlen",
+            "datum": "2026-08-20",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Allensbach",
+            "datum": "2026-08-21",
+            "fdp": 6.0
+          },
+          {
+            "institut": "pollytix",
+            "datum": "2026-08-21",
+            "fdp": 5.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-08-23",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-08-25",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-08-25",
+            "fdp": 4.5
+          },
+          {
+            "institut": "Verian (Emnid)",
+            "datum": "2026-08-28",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-08-29",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-09-01",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-09-01",
+            "fdp": 4.5
+          },
+          {
+            "institut": "Ipsos",
+            "datum": "2026-09-02",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Infratest dimap",
+            "datum": "2026-09-03",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-09-05",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-09-08",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-09-08",
+            "fdp": 4.5
+          },
+          {
+            "institut": "pollytix",
+            "datum": "2026-09-08",
+            "fdp": 5.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-09-12",
+            "fdp": 4.0
+          },
+          {
+            "institut": "GMS",
+            "datum": "2026-09-14",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-09-15",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-09-15",
+            "fdp": 4.5
+          },
+          {
+            "institut": "YouGov",
+            "datum": "2026-09-15",
+            "fdp": 5.0
+          },
+          {
+            "institut": "pollytix",
+            "datum": "2026-09-16",
+            "fdp": 5.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-09-20",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-09-22",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-09-22",
+            "fdp": 4.5
+          },
+          {
+            "institut": "Allensbach",
+            "datum": "2026-09-24",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Forschungsgruppe Wahlen",
+            "datum": "2026-09-25",
+            "fdp": 3.0
+          },
+          {
+            "institut": "Verian (Emnid)",
+            "datum": "2026-09-25",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-09-26",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-09-29",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-09-29",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Infratest dimap",
+            "datum": "2026-10-01",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-10-03",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-10-05",
+            "fdp": 4.5
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-10-06",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Forschungsgruppe Wahlen",
+            "datum": "2026-10-08",
+            "fdp": 3.0
+          },
+          {
+            "institut": "Ipsos",
+            "datum": "2026-10-08",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-10-11",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-10-13",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-10-13",
+            "fdp": 4.5
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-10-17",
+            "fdp": 4.0
+          },
+          {
+            "institut": "GMS",
+            "datum": "2026-10-19",
+            "fdp": 3.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-10-20",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-10-20",
+            "fdp": 5.0
+          },
+          {
+            "institut": "YouGov",
+            "datum": "2026-10-20",
+            "fdp": 5.0
+          },
+          {
+            "institut": "pollytix",
+            "datum": "2026-10-20",
+            "fdp": 5.0
+          },
+          {
+            "institut": "Allensbach",
+            "datum": "2026-10-22",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Forschungsgruppe Wahlen",
+            "datum": "2026-10-23",
+            "fdp": 3.0
+          },
+          {
+            "institut": "Verian (Emnid)",
+            "datum": "2026-10-23",
+            "fdp": 3.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-10-24",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-10-27",
+            "fdp": 4.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-10-27",
+            "fdp": 5.0
+          },
+          {
+            "institut": "INSA",
+            "datum": "2026-10-31",
+            "fdp": 5.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "sachsen-anhalt",
+      "name": "Landtagswahl Sachsen-Anhalt",
+      "kurz": "ST",
+      "css": "land",
+      "parlament_regex": "sachsen.anhalt",
+      "dawum_slug": "Sachsen-Anhalt",
+      "wahltermin": "2026-09-06",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": {
+        "fdp": 2.6,
+        "datum": "2026-09-06",
+        "quelle": {
+          "name": "Statistisches Landesamt Sachsen-Anhalt",
+          "url": "https://wahlergebnisse.sachsen-anhalt.de/wahlen/lt26/erg_land.html"
+        }
+      },
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-09-06",
+        "rows": []
+      }
+    },
+    {
+      "id": "mecklenburg-vorpommern",
+      "name": "Landtagswahl Mecklenburg-Vorpommern",
+      "kurz": "MV",
+      "css": "land",
+      "parlament_regex": "mecklenburg",
+      "dawum_slug": "Mecklenburg-Vorpommern",
+      "wahltermin": "2026-09-20",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": {
+        "fdp": 1.0,
+        "datum": "2026-09-20",
+        "quelle": {
+          "name": "Landtag Mecklenburg-Vorpommern",
+          "url": "https://www.landtag-mv.de/landtag/rund-um-wahlen/landtagswahl-2026"
+        }
+      },
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-09-20",
+        "rows": []
+      }
+    },
+    {
+      "id": "berlin",
+      "name": "Abgeordnetenhauswahl Berlin",
+      "kurz": "BE",
+      "css": "land",
+      "parlament_regex": "berlin",
+      "dawum_slug": "Berlin",
+      "wahltermin": "2026-09-20",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": {
+        "fdp": 2.5,
+        "datum": "2026-09-20",
+        "quelle": {
+          "name": "Landeswahlleiter Berlin",
+          "url": "https://wahlen-berlin.de/wahlen/BE2026/Afspraes/agh/index.html"
+        }
+      },
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-09-20",
+        "rows": []
+      }
+    },
+    {
+      "id": "baden-wuerttemberg",
+      "name": "Landtagswahl Baden-Württemberg",
+      "kurz": "BW",
+      "css": "land",
+      "parlament_regex": "baden.w",
+      "dawum_slug": "Baden-Württemberg",
+      "wahltermin": "2026-03-08",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": {
+        "fdp": 4.4,
+        "datum": "2026-03-08",
+        "quelle": {
+          "name": "Statistisches Landesamt Baden-Württemberg",
+          "url": "https://wahlen.statistik-bw.de/ltw26/"
+        }
+      },
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-03-08",
+        "rows": []
+      }
+    },
+    {
+      "id": "rheinland-pfalz",
+      "name": "Landtagswahl Rheinland-Pfalz",
+      "kurz": "RP",
+      "css": "land",
+      "parlament_regex": "rheinland.pfalz",
+      "dawum_slug": "Rheinland-Pfalz",
+      "wahltermin": "2026-03-22",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": {
+        "fdp": 2.1,
+        "datum": "2026-03-22",
+        "quelle": {
+          "name": "Landeswahlleiter Rheinland-Pfalz",
+          "url": "https://www.wahlen.rlp.de/nachrichten/nachrichtendetailseite/endgueltiges-ergebnis-der-landtagswahl-2026-steht-fest"
+        }
+      },
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-03-22",
+        "rows": []
+      }
+    },
+    {
+      "id": "saarland",
+      "name": "Landtagswahl Saarland",
+      "kurz": "SL",
+      "css": "land",
+      "parlament_regex": "saarland",
+      "dawum_slug": "Saarland",
+      "wahltermin": "2027-04-18",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": null,
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-11-01T15:34:27+01:00",
+        "rows": []
+      }
+    },
+    {
+      "id": "schleswig-holstein",
+      "name": "Landtagswahl Schleswig-Holstein",
+      "kurz": "SH",
+      "css": "land",
+      "parlament_regex": "schleswig",
+      "dawum_slug": "Schleswig-Holstein",
+      "wahltermin": "2027-04-18",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": null,
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-11-01T15:34:27+01:00",
+        "rows": [
+          {
+            "institut": "INSA",
+            "datum": "2026-07-14",
+            "fdp": 6.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "nrw",
+      "name": "Landtagswahl Nordrhein-Westfalen",
+      "kurz": "NW",
+      "css": "land",
+      "parlament_regex": "nordrhein",
+      "dawum_slug": "Nordrhein-Westfalen",
+      "wahltermin": "2027-04-25",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": null,
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-11-01T15:34:27+01:00",
+        "rows": [
+          {
+            "institut": "INSA",
+            "datum": "2026-10-16",
+            "fdp": 4.0
+          },
+          {
+            "institut": "Forsa",
+            "datum": "2026-09-23",
+            "fdp": 3.0
+          },
+          {
+            "institut": "Infratest dimap",
+            "datum": "2026-06-28",
+            "fdp": 5.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "bremen",
+      "name": "Bürgerschaftswahl Bremen",
+      "kurz": "HB",
+      "css": "land",
+      "parlament_regex": "brem",
+      "dawum_slug": "Bremen",
+      "wahltermin": "2027-05-30",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": null,
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-11-01T15:34:27+01:00",
+        "rows": [
+          {
+            "institut": "INSA",
+            "datum": "2026-08-19",
+            "fdp": 4.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "niedersachsen",
+      "name": "Landtagswahl Niedersachsen",
+      "kurz": "NI",
+      "css": "land",
+      "parlament_regex": "nieders",
+      "dawum_slug": "Niedersachsen",
+      "wahltermin": "2027-09-26",
+      "umfrage_max_alter_tage": 180,
+      "wahltrend_max_alter_tage": 21,
+      "wahlergebnis": null,
+      "wahltrend": {
+        "wert": null,
+        "delta": null,
+        "stand": null
+      },
+      "umfragen": {
+        "stand": "2026-11-01T15:34:27+01:00",
+        "rows": [
+          {
+            "institut": "INSA",
+            "datum": "2026-09-11",
+            "fdp": 5.0
+          }
+        ]
+      }
+    }
+  ]
+}

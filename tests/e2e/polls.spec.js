@@ -93,7 +93,7 @@ test.describe("Kopf und App-Icon", () => {
 
 
   test("zeigt das Stand-Datum aus data.json im Kopf", async ({ page }) => {
-    await expect(page.locator("#stand")).toContainText("Stand");
+    await expect(page.locator("#stand")).toContainText("Aktualisiert");
     await expect(page.locator("header.top .marke img")).toHaveAttribute("src", "icons/icon.svg");
   });
 });
@@ -145,7 +145,7 @@ test.describe("Bund-Hero", () => {
   test("fällt ohne dawum auf die gespeicherten Umfragen zurück", async ({ page }) => {
     await seite(page);
     await expect(page.locator("#bund-hero .inst-zeile .nam").first()).toHaveText("Forsa (gespeichert)");
-    await expect(page.locator("#bund-hero .liste")).toContainText("letzten Aktualisierung");
+    await expect(page.locator("#bund-hero .liste")).toContainText("Gespeicherte Umfragen, abgerufen am");
   });
 
   test("blendet Umfragen ausserhalb des Altersfensters aus", async ({ page }) => {
@@ -186,7 +186,8 @@ test.describe("Anstehende Wahlen", () => {
     await expect(be.locator(".wert .num")).toHaveText("–");
     await expect(be.locator(".pill")).toHaveText("keine Daten");
     await expect(be.locator(".bar")).toHaveCount(0);
-    await expect(be.locator(".hinweis")).toHaveText("Kein Wahltrend hinterlegt");
+    // Ein fehlender Wahltrend ist in den Ländern die Regel: kein gelber Kasten je Kachel.
+    await expect(be.locator(".hinweis")).toHaveCount(0);
   });
 
   test("der Status-Chip benennt die Lage zur Hürde", async ({ page }) => {
@@ -239,7 +240,7 @@ test.describe("Hinweis zur Datenlage", () => {
 
   test("eine Ebene mit Werten bekommt keinen Hinweis", async ({ page }) => {
     await mitHinweis(page);
-    await expect(page.locator("#kachel-nrw .notiz")).toHaveCount(0);
+    await expect(page.locator("#kachel-nrw .notiz:not(.duenn)")).toHaveCount(0);
     await expect(page.locator("#kachel-nrw .pill")).not.toHaveText("nicht ausgewiesen");
   });
 
@@ -247,7 +248,7 @@ test.describe("Hinweis zur Datenlage", () => {
     await seite(page);   // Fixture ohne datenhinweis
     await expect(page.locator("#kachel-berlin .notiz")).toHaveCount(0);
     await expect(page.locator("#kachel-berlin .pill")).toHaveText("keine Daten");
-    await expect(page.locator("#kachel-berlin .hinweis")).toHaveText("Kein Wahltrend hinterlegt");
+    await expect(page.locator("#kachel-berlin .hinweis")).toHaveCount(0);
   });
 
   test("ein gesetzter Hinweis ist ein brauchbarer Satz", async ({ request }) => {
@@ -427,7 +428,7 @@ test.describe("Zeitverlauf Bund", () => {
     await mitVerlauf(page);
     // 4 Umfragen in 90 Tagen; die 200 Tage alte zählt nicht. Dazu kommt die Kugel
     // des Tooltips, die zunächst verborgen ist.
-    const punkte = page.locator('#fdp-verlauf-chart circle[fill-opacity="0.35"]');
+    const punkte = page.locator('#fdp-verlauf-chart circle[fill-opacity="0.6"]');
     await expect(punkte).toHaveCount(4);
   });
 
@@ -436,6 +437,14 @@ test.describe("Zeitverlauf Bund", () => {
     await expect(page.locator("#fdp-verlauf-chart path")).toHaveCount(1);
     // Letzter Tag: INSA 5,0 und Forsa 3,0 im 14-Tage-Fenster -> 4,0 %
     await expect(page.locator("#fdp-verlauf-chart text", { hasText: /^4,0 %$/ })).toHaveCount(1);
+  });
+
+  test("die y-Achse spannt nur den Wertebereich samt Hürde, nicht ab 0 %", async ({ page }) => {
+    await mitVerlauf(page);
+    // Werte 3,0 bis 5,0 %: Achse von 2 bis 6 %, die Hürde liegt im Bild.
+    await expect(page.locator("#fdp-verlauf-chart text", { hasText: /^0 %$/ })).toHaveCount(0);
+    await expect(page.locator("#fdp-verlauf-chart text", { hasText: /^2 %$/ })).toHaveCount(1);
+    await expect(page.locator("#fdp-verlauf-chart text", { hasText: /^6 %$/ })).toHaveCount(1);
   });
 
   test("markiert die 5-%-Hürde gestrichelt und beschriftet sie", async ({ page }) => {
@@ -484,7 +493,7 @@ test.describe("Zeitverlauf Bund", () => {
     await page.waitForSelector("#fdp-verlauf-chart svg");
     // dawum-live kennt eine Bund-Umfrage im Fenster und eine 250 Tage alte.
     // Gespeichert sind 4 im Fenster -> 5 Punkte, keine Dublette.
-    await expect(page.locator('#fdp-verlauf-chart circle[fill-opacity="0.35"]')).toHaveCount(5);
+    await expect(page.locator('#fdp-verlauf-chart circle[fill-opacity="0.6"]')).toHaveCount(5);
   });
 
   test("spannt die Achse über das ganze Fenster, nicht nur über die vorhandenen Daten", async ({ page }) => {
