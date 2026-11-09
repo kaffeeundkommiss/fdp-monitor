@@ -375,6 +375,12 @@
     data = await r.json();
   } catch(e){
     console.warn('%s nicht ladbar', DATA_URL, e);
+    if(!SNAP){
+      document.getElementById('stand').textContent = 'Daten nicht geladen';
+      zeigeFehler('Die Umfragedaten (<code>data.json</code>) waren nicht abrufbar. '
+        + 'Bitte später erneut laden.');
+      return;
+    }
     if(SNAP){
       banner.hidden = false;
       document.getElementById('stand').textContent = 'Momentaufnahme fehlt';
@@ -417,8 +423,13 @@
 
   let db = null;
   if(!SNAP && (data.ebenen || []).some((e) => !wahlAbgeschlossen(e))){
-    try { db = await (await fetch(DAWUM_URL)).json(); }
+    // Zeitbegrenzung (Startwert 6 s): Antwortet dawum nicht, zeigt die Seite die
+    // gespeicherten Werte aus data.json, statt auf die API zu warten.
+    const abbruch = new AbortController();
+    const uhr = setTimeout(() => abbruch.abort(), 6000);
+    try { db = await (await fetch(DAWUM_URL, {signal: abbruch.signal})).json(); }
     catch(e){ console.warn('dawum live nicht erreichbar, nutze data.json', e); }
+    finally { clearTimeout(uhr); }
   } // sind alle Wahlen gelaufen, gibt es nichts abzufragen
 
   // Einzelumfragen je Ebene: live von dawum, sonst der gespeicherte Fallback.
