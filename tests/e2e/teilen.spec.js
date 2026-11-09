@@ -194,3 +194,24 @@ test.describe("Zeitverlauf am Handy", () => {
     await expect(page.locator(".fv-tip")).toBeHidden();
   });
 });
+
+test.describe("Ladeprobleme", () => {
+  test("data.json nicht abrufbar: verständlicher Fehlerhinweis statt leerer Seite", async ({ page }) => {
+    await page.route("**/fonts.googleapis.com/**", (r) => r.abort());
+    await page.route("**://api.dawum.de/**", (r) => r.abort("failed"));
+    await page.route("**/data.json*", (r) => r.fulfill({ status: 500, body: "" }));
+    await page.goto("/index.html");
+    await expect(page.locator("#stand")).toHaveText("Daten nicht geladen");
+    await expect(page.locator("#bund-hero .fehler")).toContainText("nicht abrufbar");
+  });
+
+  test("dawum antwortet nicht: Seite zeigt nach der Zeitbegrenzung die gespeicherten Werte", async ({ page }) => {
+    await page.route("**/fonts.googleapis.com/**", (r) => r.abort());
+    await page.route("**://api.dawum.de/**", () => {}); // hängt, keine Antwort
+    await page.route("**/data.json*", (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(DATEN) }));
+    await page.goto("/index.html");
+    await expect(page.locator("#stand")).toContainText("Aktualisiert");
+    await expect(page.locator("#bund-hero .fehler")).toHaveCount(0);
+    await expect(page.locator("#bund-hero")).not.toBeEmpty({ timeout: 10000 });
+  });
+});
