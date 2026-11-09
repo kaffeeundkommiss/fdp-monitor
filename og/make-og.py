@@ -25,7 +25,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 HIER = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HIER)
-SITE = "kirchnerjan-cell.github.io/fdp-monitor"
+SITE = "kaffeeundkommiss.github.io/fdp-monitor"
 
 W, H = 1200, 630
 SS = 2  # Supersampling: doppelt zeichnen, dann verkleinern -> glatte Kanten
