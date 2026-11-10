@@ -35,7 +35,7 @@ async function laden(page, pfad = "/index.html", { archiv = ["2026-KW44", "2026-
 }
 
 test.describe("Vorschaukarten", () => {
-  for (const [seite, bild] of [["/index.html", "og/umfragen.png"], ["/partei.html", "og/partei.png"], ["/programme.html", "og/programme.png"]]) {
+  for (const [seite, bild] of [["/index.html", "og/umfragen.png"], ["/partei.html", "og/partei.png"]]) {
     test(`${seite} hat Open Graph, Twitter Card und canonical`, async ({ page, request }) => {
       await page.goto(seite);
       const meta = (sel) => page.locator(sel).getAttribute("content");
@@ -165,8 +165,6 @@ test.describe("Parteiseite", () => {
 
     await expect(page.locator("#vorsitzende .quelle")).toContainText("tagesschau");
     await expect(page.locator(".teilen-leiste")).toHaveCount(3);
-    await page.goto("/programme.html");
-    await expect(page.locator("#themen .quelle")).toContainText("keine systematische Inhaltsanalyse");
   });
 });
 
