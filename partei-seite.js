@@ -77,7 +77,7 @@
   const jahre = (v) => fmt(v) + ' J.';
   if(vk && $('vorsitz-kennzahlen')){
     document.getElementById('vorsitz-kennzahlen').innerHTML = [
-      ['Vorsitzende seit 1948', String(vk.anzahl), vk.amtierend ? 'amtierend: ' + vk.amtierend.name : ''],
+      [d.vorsitz_titel || 'Amtszeiten', String(vk.anzahl), vk.amtierend ? 'amtierend: ' + vk.amtierend.name : ''],
       ['Längste Amtszeit', jahre(vk.laengste.jahre), vk.laengste.name + (vk.laengste.laufend ? ' (amtierend)' : '')],
       ['Kürzeste Amtszeit', jahre(vk.kuerzeste.jahre), vk.kuerzeste.name],
       ['Ø Amtszeit', jahre(vk.mittel), 'abgeschlossene Amtszeiten'],
@@ -113,7 +113,7 @@
       const y = mt + i * zh, m = y + zh / 2;
       txt(svg, {x: ml - 8, y: m, dy: '0.32em', 'text-anchor': 'end', class: 'stark'}, name(z));
       const b = el('rect', {x: X(z.a), y: y + 4, width: Math.max(3, X(z.b) - X(z.a)), height: zh - 8, rx: 4,
-        fill: z.laufend ? 'var(--ueber)' : 'var(--ink)'}, svg);
+        fill: z.laufend ? 'var(--ueber)' : 'var(--opp)'}, svg);
       hover(b, tip, (ev) => tip.zeige(ev, z.nr + '. ' + z.name, [
         fmt(z.jahre) + ' Jahre' + (z.laufend ? ' (amtierend)' : ''),
         dfmt(z.beginn) + ' – ' + (z.ende ? dfmt(z.ende) : 'heute')]));
@@ -172,7 +172,7 @@
     SPUREN.forEach((s, i) => txt(svg, {x: ml, y: spurY(i) - 5, class: 'stark'}, s));
     const vorsitz = balken.filter((b) => b.spur === 'Vorsitz');
     const farbe = (b) => b.spur === 'Rolle im Bund' ? rolleFarbe(b.status)
-      : b.spur === 'Vorsitz' ? (vorsitz.indexOf(b) % 2 ? '#4A505B' : 'var(--ink)') : '#EFC41A';
+      : b.spur === 'Vorsitz' ? (vorsitz.indexOf(b) % 2 ? '#555555' : 'var(--ink)') : '#EFC41A';
     const mfmt = (t) => new Date(t).toLocaleDateString('de-DE', {month: '2-digit', year: 'numeric', timeZone: 'UTC'});
     const unbeschriftet = new Set();   // Spuren mit mindestens einem Balken ohne Platz für sein Label
     balken.forEach((b) => {

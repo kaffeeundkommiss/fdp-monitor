@@ -1,5 +1,6 @@
 {
   "stand": "2026-11-16",
+  "vorsitz_titel": "Amtszeiten seit 1948",
   "wahlen": [
     {
       "jahr": 1998,
@@ -242,6 +243,8 @@
     ]
   },
   "belege_hinweis": {
+    "wahlen": "Zweitstimmen. Rolle: Regierung, Opposition oder nicht im Bundestag in der folgenden Wahlperiode. Vorsitz: Bundesvorsitz am Wahltag.",
+    "zeitleiste": "Rolle im Bund nach Monaten gerundet.",
     "vorsitz": "Amtsdaten vor 2025 zusätzlich nach Wikipedia, noch nicht vollständig gegen Primärquellen geprüft."
   }
 }
