@@ -133,7 +133,7 @@ def bild_umfragen(data, pfad):
     c = Leinwand()
     c.kopf("Umfragewerte der FDP · Bund und Länder")
 
-    c.text(60, 168, ("Bundestagswahl · " + art).upper(), HALB(20), GRAU)
+    c.text(60, 168, ("Umfrage · Bundestagswahl · " + art).upper(), HALB(20), GRAU)
     num = "–" if wert is None else fmt(wert)
     c.text(56, 196, num, MONO(150), WEISS)
     nx = 56 + c.breite(num, MONO(150))
@@ -177,7 +177,8 @@ def bild_umfragen(data, pfad):
     linie, ab, bis = mittel_14(((bund.get("verlauf") or {}).get("rows") or []), stichtag=erstellt)
     gx0, gx1, gy0, gy1 = 640, 1140, 190, 500
     c.rect(gx0 - 20, gy0 - 50, gx1 + 20, gy1 + 30, "#1E222B", 16)
-    c.text(gx0, gy0 - 22, "14-Tage-Mittel, letzte 90 Tage", HALB(18), GRAU, "lm")
+    c.text(gx0, gy0 - 22, f"Umfragen, 14-Tage-Mittel in % · {dfmt(ab.isoformat())}–{dfmt(bis.isoformat())}",
+           HALB(18), GRAU, "lm")
     ymax = 8
     X = lambda d: gx0 + (d - ab).days / max(1, (bis - ab).days) * (gx1 - gx0 - 60)
     Y = lambda v: gy1 - v / ymax * (gy1 - gy0 - 20)
@@ -189,6 +190,8 @@ def bild_umfragen(data, pfad):
         c.line([(X(t), Y(v)) for t, v in linie], WEISS, 3.5)
         t, v = linie[-1]
         c.text(X(t) + 10, Y(v), fmt(v) + " %", MONO(20), WEISS, "lm")
+    else:
+        c.text((gx0 + gx1 - 60) / 2, gy1 - 40, "Zeitreihe derzeit nicht verfügbar", HALB(18), GRAU, "mm")
 
     c.fuss(f"Quelle: dawum.de (ODbL) · Stand {dfmt(stand) if stand else 'unbekannt'}")
     c.speichern(pfad)
@@ -199,7 +202,7 @@ def bild_partei(partei, pfad):
     c.kopf("Die FDP auf Bundesebene")
     wahlen = partei["wahlen"]
     erste, letzte = wahlen[0], wahlen[-1]
-    c.text(60, 168, f"BUNDESTAGSWAHLEN {erste['jahr']}–{letzte['jahr']} · ZWEITSTIMMEN", HALB(20), GRAU)
+    c.text(60, 168, f"BUNDESTAGSWAHLEN {erste['jahr']}–{letzte['jahr']} · AMTLICHE ERGEBNISSE IN %", HALB(20), GRAU)
     beste = max(wahlen, key=lambda w: w["ergebnis"])
     c.text(60, 214, f"Bestes Ergebnis {fmt(beste['ergebnis'])} % ({beste['jahr']})", HALB(26), WEISS)
     c.text(60, 254, f"Zuletzt {fmt(letzte['ergebnis'])} % ({letzte['jahr']})", HALB(26), "#FF8A80")

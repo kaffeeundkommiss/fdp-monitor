@@ -132,6 +132,9 @@
   .liste .lkopf{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:8px;border-bottom:1px solid var(--line)}
   .liste .lkopf h3{margin:0;font-size:15px;font-weight:600}
   .liste .lkopf .skl{font-size:13px;color:var(--mute)}
+  .liste .llegende{margin:8px 0 0;font-size:13px;color:var(--mute)}
+  .abschnitt-legende{margin:6px 0 0;font-size:13px;color:var(--mute);max-width:46em}
+  .kachel .wart{font-size:12px;font-weight:600;color:var(--mute);margin-top:6px}
   .inst-zeile{display:grid;grid-template-columns:150px 1fr 60px;align-items:center;gap:14px;padding:7px 0;border-bottom:1px solid var(--hair)}
   .inst-zeile .nam{font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .inst-zeile .dat{font-family:var(--mono);font-size:13px;color:var(--mute)}
@@ -233,7 +236,7 @@
   }
 .einstieg{margin:0 0 -20px;max-width:40em;color:var(--mute);font-size:16px;line-height:1.5}
 </style>
-<link rel="stylesheet" href="bereich.css?v=2">
+<link rel="stylesheet" href="bereich.css?v=3">
 </head>
 <body>
 <div class="kk-leiste"><div class="kk-in">
@@ -273,23 +276,28 @@
   <section id="bund-hero" aria-labelledby="bund-titel" data-teilen="Bundestagswahl"></section>
 
   <section id="bund-verlauf" class="karte verlauf" aria-labelledby="verlauf-titel" data-teilen="Zeitverlauf Bund" hidden>
+    <span class="art umfrage">Umfragen</span>
     <h2 id="verlauf-titel">FDP im Zeitverlauf · Bund</h2>
     <p class="sub" id="verlauf-sub">Punkte: Einzelumfragen · Linie: 14-Tage-Mittel</p>
     <div id="fdp-verlauf-chart" class="fv-chart"></div>
-    <p class="fv-quelle">Quelle: <a href="https://dawum.de/Bundestag/" rel="noopener">dawum.de</a> · 14-Tage-Mittel ungewichtet</p>
+    <p class="fv-quelle" id="verlauf-quelle">Quelle: <a href="https://dawum.de/Bundestag/" rel="noopener">dawum.de</a> (ODbL) · 14-Tage-Mittel ungewichtet</p>
   </section>
 
   <section id="anstehend" aria-labelledby="anstehend-titel" data-teilen="Anstehende Wahlen">
+    <span class="art umfrage">Umfragen</span>
     <div class="kopfzeile">
       <h2 id="anstehend-titel">Anstehende Wahlen</h2>
       <span class="hint">nächster Termin zuerst</span>
     </div>
+    <p class="abschnitt-legende">Große Zahl: Umfragewert in % (Wahltrend, sonst Ø der neuesten Umfrage je Institut), kein Ergebnis. Balken 0–8 %, rote Linie: 5-%-Hürde.</p>
     <div class="kacheln" id="anstehend-grid" style="margin-top:16px"></div>
-    <p class="quelle">Quelle: <a href="https://dawum.de" rel="noopener">dawum.de</a> (ODbL) · ohne Wahltrend: Ø der neuesten Umfrage je Institut</p>
+    <p class="quelle">Quelle: <a href="https://dawum.de" rel="noopener">dawum.de</a> (ODbL) · ohne Wahltrend: Ø der neuesten Umfrage je Institut<span id="anstehend-stand"></span></p>
   </section>
 
   <section id="gelaufen" aria-labelledby="gelaufen-titel" data-teilen="Gelaufene Wahlen" data-quelle="amtliche Endergebnisse der Landeswahlleitungen" hidden>
+    <span class="art amtlich">Amtliche Ergebnisse</span>
     <div class="kopfzeile"><h2 id="gelaufen-titel">Gelaufene Wahlen</h2></div>
+    <p class="abschnitt-legende">Amtliche Endergebnisse in %, Quelle je Zeile. Balken 0–8 %, rote Linie: 5-%-Hürde.</p>
     <div class="karte tabelle" id="gelaufen-tabelle" style="margin-top:16px"></div>
   </section>
 </main>
@@ -472,6 +480,10 @@
     return '';
   }
 
+  // Kennzeichen über jedem Diagramm: Umfrage oder amtliches Ergebnis (Gestaltung in bereich.css).
+  const artMarke = (art) => art === 'amtlich'
+    ? '<span class="art amtlich">Amtliches Ergebnis</span>' : '<span class="art umfrage">Umfragen</span>';
+
   const gruppen = gruppiereEbenen(data.ebenen || [], NOW);
 
   // ---------- Bund-Hero ----------
@@ -496,6 +508,7 @@
 
     heroEl.innerHTML = `<div class="karte hero">
       <div class="zahlen">
+        ${artMarke(lz.art === 'ergebnis' ? 'amtlich' : 'umfrage')}
         <h2 class="ueberschrift" id="bund-titel">${esc(bund.name)} · ${
           lz.art === 'trend' ? 'Wahltrend' : lz.art === 'ergebnis' ? 'Amtliches Ergebnis' : 'Ø der Umfragen'}</h2>
         <div class="leitzahl">
@@ -511,7 +524,7 @@
             ${balken(lz.wert, '<div class="marklbl">5 %</div>' + punkte)}
           </div>
           <div class="achse"><span>0 %</span><span>2 %</span><span>4 %</span><span>6 %</span><span>8 %</span></div>
-          <div class="legende">Balken: ${lz.art === 'trend' ? 'Wahltrend' : 'Leitzahl'} · Punkte: Einzelumfragen</div>
+          <div class="legende">Angaben in %. Balken: ${lz.art === 'trend' ? 'Wahltrend (Umfragen)' : lz.art === 'ergebnis' ? 'amtliches Ergebnis' : 'Ø der Umfragen'} · Punkte: Einzelumfragen · rote Linie: 5-%-Hürde</div>
         </div>
         <dl class="kennzahlen">
           <div><dt>Ø neueste Umfrage je Institut</dt><dd>${lz.avg == null ? '–' : pz(lz.avg)}</dd></div>
@@ -529,6 +542,7 @@
           <div class="lkopf">
             <h3>Neueste Umfrage je Institut</h3><span class="skl">Skala 0–8 %</span>
           </div>
+          <p class="llegende">Balken: Umfragewert in % (blau: ab 5 %, schwarz: darunter) · rote Linie: 5-%-Hürde</p>
           ${rows.length ? rows.slice().sort((a, b) => (b.datum || '').localeCompare(a.datum || '')).map((r) =>
             `<div class="inst-zeile">
                <div><div class="nam">${esc(r.institut)}</div><div class="dat">${dfmt(r.datum)}</div></div>
@@ -574,8 +588,15 @@
     }
     const linie = gleitendesMittel(punkte, FENSTER);
     const sub = document.getElementById('verlauf-sub');
-    if(sub) sub.textContent = `Letzte ${TAGE} Tage · Punkte: Einzelumfragen · `
-      + `Linie: ${FENSTER}-Tage-Mittel`;
+    // Zeitraum und Stand als Datum, nicht nur "letzte 90 Tage": ein Screenshot muss
+    // auch Wochen später noch sagen, welches Fenster er zeigt.
+    const bisT = NOW || new Date();
+    const vonT = new Date(Date.UTC(bisT.getUTCFullYear(), bisT.getUTCMonth(), bisT.getUTCDate()) - TAGE * 864e5);
+    const isoT = (t) => new Date(t).toISOString().slice(0, 10);
+    if(sub) sub.textContent = `Umfragewerte Bundestagswahl in %, ${dfmt(isoT(vonT))}–${dfmt(isoT(bisT))} `
+      + `(letzte ${TAGE} Tage) · Punkte: Einzelumfragen · Linie: ${FENSTER}-Tage-Mittel · rot gestrichelt: 5-%-Hürde`;
+    const vq = document.getElementById('verlauf-quelle');
+    if(vq) vq.append(` · letzte Umfrage vom ${dfmt(isoT(punkte[punkte.length - 1].t))}`);
 
     const NS = 'http://www.w3.org/2000/svg';
     const el = (n, a, eltern) => { const e = document.createElementNS(NS, n);
@@ -748,6 +769,7 @@
         </div>
         ${tage != null ? `<span class="tage">in ${tage} T.</span>` : ''}
       </div>
+      <div class="wart">${lz.art === 'ergebnis' ? 'Amtliches Ergebnis' : lz.art === 'trend' ? 'Umfrage · Wahltrend' : 'Umfrage · Ø'}</div>
       <div class="wert">
         <span class="num">${lz.wert == null ? '–' : pz(lz.wert)}</span>
         <span class="pill ${h.status}">${esc(datenhinweis ? 'nicht ausgewiesen' : h.kurz)}</span>
@@ -770,8 +792,8 @@
     document.getElementById('gelaufen-tabelle').innerHTML = `<table>
       <thead><tr>
         <th>Wahl</th><th>Datum</th>
-        <th style="text-align:right">Ergebnis</th>
-        ${mitTrend ? '<th style="text-align:right">Letzter Trend</th>' : ''}
+        <th style="text-align:right">Ergebnis (amtl.)</th>
+        ${mitTrend ? '<th style="text-align:right">Letzter Wahltrend (Umfrage)</th>' : ''}
         <th class="abstand">Abstand zur Hürde</th>
       </tr></thead>
       <tbody>${gelaufen.map((e) => {
@@ -784,7 +806,7 @@
         return `<tr id="zeile-${esc(e.id)}">
           <td class="wahl">${esc(teileName(e.name).land)}${beleg}</td>
           <td class="mono">${dfmt(e.wahltermin)}</td>
-          <td class="erg">${lz.wert != null ? pz(lz.wert) + (erg.vorlaeufig ? ' *' : '') : '–'}</td>
+          <td class="erg">${lz.wert != null ? pz(lz.wert) + (lz.art !== 'ergebnis' ? ' (Umfrage)' : erg.vorlaeufig ? ' *' : '') : '–'}</td>
           ${mitTrend ? `<td class="trend">${t.wert != null ? pz(t.wert) : '–'}</td>` : ''}
           <td class="abstand" title="${lz.avg != null ? 'Ø der Umfragen nach der Wahl: ' + pz(lz.avg) : ''}">${balken(lz.wert)}</td>
         </tr>`;
@@ -792,6 +814,13 @@
       ${gelaufen.some((e) => (e.wahlergebnis || {}).vorlaeufig)
         ? '<p class="basis" style="padding:0 20px 14px">* vorläufiges amtliches Ergebnis</p>' : ''}`;
   }
+
+  const standSeite = SNAP ? 'Momentaufnahme ' + kwText(SNAP) : data.erstellt ? 'Stand ' + dfmt(data.erstellt) : '';
+  const ast = document.getElementById('anstehend-stand');
+  // Die Kacheln zeigen live abgerufene Umfragen, wenn dawum erreichbar war – dann gilt deren Stand.
+  const liveStand = !SNAP && db && db.Database && db.Database.Last_Update;
+  if(ast) ast.textContent = liveStand ? ' · Umfragen live, Datenbank-Stand ' + dfmt(liveStand)
+    : standSeite ? ' · ' + standSeite : '';
 
   // Link- und Bild-Knöpfe erst jetzt: die Abschnitte sind gerendert, und ein #Anker
   // aus einem geteilten Link kann angesprungen werden.
