@@ -517,7 +517,7 @@ test.describe("Zeitverlauf Bund", () => {
 
   test("nennt den Zeitraum in der Unterzeile", async ({ page }) => {
     await mitVerlauf(page);
-    await expect(page.locator("#verlauf-sub")).toContainText("Letzte 90 Tage");
+    await expect(page.locator("#verlauf-sub")).toContainText("letzte 90 Tage");
   });
 
   test.describe("mobil", () => {
@@ -558,5 +558,24 @@ test.describe("Zeitverlauf Bund", () => {
       expect(tip.y).toBeGreaterThanOrEqual(chart.y - 1);
       expect(tip.y + tip.height).toBeLessThanOrEqual(chart.y + chart.height + 1);
     });
+  });
+});
+
+// Umfragewerte, Wahlergebnisse und Zeitverlauf dürfen nicht verwechselt werden:
+// jeder Abschnitt trägt ein Kennzeichen als Text, Kacheln und Tabelle zusätzlich je Wert.
+test.describe("Kennzeichnung der Diagramme", () => {
+  test("Umfragen und amtliche Ergebnisse sind je Abschnitt gekennzeichnet", async ({ page }) => {
+    await seite(page);
+    await expect(page.locator("#bund-hero .art")).toHaveText("Umfragen");
+    await expect(page.locator("#bund-verlauf .art")).toHaveText("Umfragen");
+    await expect(page.locator("#anstehend .art")).toHaveText("Umfragen");
+    await expect(page.locator("#gelaufen .art")).toHaveText("Amtliche Ergebnisse");
+    await expect(page.locator("#gelaufen-tabelle thead")).toContainText("Ergebnis (amtl.)");
+    await expect(page.locator("#anstehend .kachel .wart").first()).toContainText("Umfrage");
+  });
+
+  test("die Quelle der Kacheln nennt den Stand", async ({ page }) => {
+    await seite(page);
+    await expect(page.locator("#anstehend .quelle")).toContainText("Stand");
   });
 });
