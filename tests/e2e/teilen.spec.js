@@ -25,7 +25,7 @@ const DATEN = {
 };
 
 async function laden(page, pfad = "/index.html", { archiv = ["2026-KW44", "2026-KW45"] } = {}) {
-  await page.route("**/fonts.googleapis.com/**", (r) => r.abort());
+  await page.route("**/kaffeeundkommiss.github.io/schriften/**", (r) => r.abort());
   await page.route("**://api.dawum.de/**", (r) => r.abort("failed"));
   await page.route("**/data.json*", (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(DATEN) }));
   await page.route("**/archiv/index.json*", (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(archiv) }));
@@ -159,7 +159,7 @@ test.describe("Momentaufnahmen", () => {
 
 test.describe("Parteiseite", () => {
   test("jeder Diagrammabschnitt nennt seine Quelle und lässt sich teilen", async ({ page }) => {
-    await page.route("**/fonts.googleapis.com/**", (r) => r.abort());
+    await page.route("**/kaffeeundkommiss.github.io/schriften/**", (r) => r.abort());
     await page.goto("/partei.html");
     await expect(page.locator("#bundestagswahlen .quelle a").first()).toHaveAttribute("href", /bundeswahlleiterin\.de/);
 
@@ -178,7 +178,7 @@ test.describe("Zeitverlauf am Handy", () => {
     const d = JSON.parse(JSON.stringify(DATEN));
     d.ebenen[0].verlauf_tage = 90;
     d.ebenen[0].verlauf = { stand: ERSTELLT, rows: verlauf };
-    await page.route("**/fonts.googleapis.com/**", (r) => r.abort());
+    await page.route("**/kaffeeundkommiss.github.io/schriften/**", (r) => r.abort());
     await page.route("**://api.dawum.de/**", (r) => r.abort("failed"));
     await page.route("**/data.json*", (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(d) }));
     await page.goto("/index.html");
@@ -195,7 +195,7 @@ test.describe("Zeitverlauf am Handy", () => {
 
 test.describe("Ladeprobleme", () => {
   test("data.json nicht abrufbar: verständlicher Fehlerhinweis statt leerer Seite", async ({ page }) => {
-    await page.route("**/fonts.googleapis.com/**", (r) => r.abort());
+    await page.route("**/kaffeeundkommiss.github.io/schriften/**", (r) => r.abort());
     await page.route("**://api.dawum.de/**", (r) => r.abort("failed"));
     await page.route("**/data.json*", (r) => r.fulfill({ status: 500, body: "" }));
     await page.goto("/index.html");
@@ -204,7 +204,7 @@ test.describe("Ladeprobleme", () => {
   });
 
   test("dawum antwortet nicht: Seite zeigt nach der Zeitbegrenzung die gespeicherten Werte", async ({ page }) => {
-    await page.route("**/fonts.googleapis.com/**", (r) => r.abort());
+    await page.route("**/kaffeeundkommiss.github.io/schriften/**", (r) => r.abort());
     await page.route("**://api.dawum.de/**", () => {}); // hängt, keine Antwort
     await page.route("**/data.json*", (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(DATEN) }));
     await page.goto("/index.html");
